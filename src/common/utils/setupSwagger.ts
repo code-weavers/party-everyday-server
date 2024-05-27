@@ -11,7 +11,7 @@ export class SetupSwagger {
          .setVersion('1.0')
          .addTag('Authentication')
          .addTag('Users')
-         .addTag('Party')
+         .addTag('Address')
          .build();
       const document = SwaggerModule.createDocument(app, config);
       SwaggerModule.setup('api', app, document);
