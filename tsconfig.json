@@ -1,0 +1,53 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2021",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@/*": [
+        "src/*"
+      ],
+      "@modules/*": [
+        "src/modules/*"
+      ],
+      "@services/*": [
+        "src/services/*"
+      ],
+      "@entities/*": [
+        "src/entities/*"
+      ],
+      "@decorators/*": [
+        "src/common/decorators/*"
+      ],
+      "@interfaces/*": [
+        "src/common/interfaces/*"
+      ],
+      "@utils/*": [
+        "src/common/utils/*"
+      ],
+      "@config/*": [
+        "src/config/*"
+      ],
+      "@enums/*": [
+        "src/common/enums/*"
+      ],
+      "@guards/*": [
+        "src/common/guards/*"
+      ],
+    }
+  }
+}
