@@ -1,10 +1,10 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDate, IsOptional } from 'class-validator';
+import { IsDateString, IsOptional } from 'class-validator';
 
 export const IsOptionalDate = () => {
    return applyDecorators(
-      IsDate(),
+      IsDateString(),
       IsOptional(),
       ApiProperty({
          required: false,

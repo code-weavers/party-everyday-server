@@ -1,0 +1,68 @@
+import { IsOptionalDate } from '@/common/decorators/validators/isOptionalDate.decorator';
+import { IsOptionalModel } from '@/common/decorators/validators/isOptionalModel.decorator';
+import { IsOptionalString } from '@/common/decorators/validators/isOptionalString.decorator';
+import { IsRequiredDate } from '@/common/decorators/validators/isRequiredDate.decorator';
+import { IsRequiredString } from '@/common/decorators/validators/isRequiredString.decorator';
+import { StatusParty } from '@/common/enums/statusParty.enum';
+import { CreateFileDTO } from '@/modules/file/presenters/file.dto';
+import { UserDTO } from '@/modules/user/presenters/user.dto';
+import { uuid } from 'uuidv4';
+
+export class CreatePartyDTO {
+   public id?: string;
+
+   public ownerId: string;
+
+   @IsRequiredString()
+   public name: string;
+
+   @IsOptionalString()
+   public description?: string;
+
+   @IsRequiredDate()
+   public date: Date;
+
+   @IsRequiredString()
+   public addressId: string;
+
+   @IsOptionalModel([UserDTO])
+   public guests?: UserDTO[];
+
+   @IsOptionalModel([CreateFileDTO])
+   public files?: CreateFileDTO[];
+
+   constructor(party: CreatePartyDTO) {
+      Object.assign(this, party);
+      this.id = uuid();
+   }
+}
+
+export class UpdatePartyDTO {
+   @IsOptionalString()
+   public ownerId?: string;
+
+   @IsOptionalString()
+   public name?: string;
+
+   @IsOptionalString()
+   public description?: string;
+
+   @IsOptionalDate()
+   public date?: Date;
+
+   @IsOptionalString()
+   public status?: StatusParty;
+
+   @IsOptionalString()
+   public addressId?: string;
+
+   @IsOptionalModel([UserDTO])
+   public guests?: UserDTO[];
+
+   @IsOptionalModel([CreateFileDTO])
+   public files?: CreateFileDTO[];
+
+   constructor(props: UpdatePartyDTO) {
+      Object.assign(this, props);
+   }
+}
