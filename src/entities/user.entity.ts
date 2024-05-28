@@ -4,11 +4,13 @@ import {
    CreateDateColumn,
    Entity,
    JoinColumn,
+   OneToMany,
    OneToOne,
    PrimaryGeneratedColumn,
    UpdateDateColumn,
 } from 'typeorm';
 import { File } from './file.entity';
+import { Guest } from './guest.entity';
 
 @Entity()
 export class User {
@@ -37,4 +39,7 @@ export class User {
    })
    @JoinColumn()
    public file?: File;
+
+   @OneToMany(() => Guest, (guest) => guest.user)
+   public guest: Guest[];
 }
