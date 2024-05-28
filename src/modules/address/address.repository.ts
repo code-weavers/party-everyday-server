@@ -15,6 +15,7 @@ export class AddressRepository implements IAddressRepository {
    public async findAll(): Promise<Address[]> {
       return await this.repository.find();
    }
+
    public async findById(id: string): Promise<Address> {
       return await this.repository.findOne({ where: { id } });
    }
