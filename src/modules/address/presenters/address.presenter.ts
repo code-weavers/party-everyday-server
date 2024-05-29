@@ -4,8 +4,8 @@ export class AddressPresenter {
    @ApiProperty()
    public id: string;
 
-   @ApiProperty()
-   public name: string;
+   @ApiProperty({ required: false })
+   public name?: string;
 
    @ApiProperty()
    public zipCode: string;
@@ -22,8 +22,8 @@ export class AddressPresenter {
    @ApiProperty()
    public street: string;
 
-   @ApiProperty()
-   public complement: string;
+   @ApiProperty({ required: false })
+   public complement?: string;
 
    @ApiProperty()
    public number: number;

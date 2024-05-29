@@ -36,7 +36,7 @@ export class UpdatePartyFileUseCase {
       id: string,
       filesUploaded: CreateFileDTO[],
    ): Promise<File[]> {
-      let files: File[];
+      let files: File[] = [];
 
       const partyFiles = await this.fileRepository.findAll(id, OwnerType.PARTY);
 

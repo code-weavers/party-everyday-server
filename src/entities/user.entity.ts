@@ -41,5 +41,5 @@ export class User {
    public file?: File;
 
    @OneToMany(() => Guest, (guest) => guest.user)
-   public guest: Guest[];
+   public guest?: Guest[];
 }

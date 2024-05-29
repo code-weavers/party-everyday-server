@@ -1,5 +1,5 @@
 import { IsRequiredStringColumn } from '@/common/decorators/columns/isRequiredStringColumn.decorator';
-import { UserStatusParty } from '@/common/enums/userStatusParty.enum';
+import { GuestStatus } from '@/common/enums/guest.enum';
 import { Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Party } from './party.entity';
 import { User } from './user.entity';
@@ -16,16 +16,16 @@ export class Guest {
    public partyId: string;
 
    @IsRequiredStringColumn({
-      enum: UserStatusParty,
-      default: UserStatusParty.PENDING,
+      enum: GuestStatus,
+      default: GuestStatus.PENDING,
    })
-   public status: UserStatusParty;
+   public status: GuestStatus;
 
    @ManyToOne(() => Party, (party) => party.guests, {
       onDelete: 'CASCADE',
    })
    @JoinColumn({ name: 'partyId' })
-   public party: Party;
+   public party?: Party;
 
    @ManyToOne(() => User)
    public user: User;

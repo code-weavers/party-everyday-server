@@ -1,7 +1,7 @@
 import { IsOptionalStringColumn } from '@/common/decorators/columns/isOptionalStringColumn.decorator';
 import { IsRequiredDateColumn } from '@/common/decorators/columns/isRequiredDateColumn.decorator';
 import { IsRequiredStringColumn } from '@/common/decorators/columns/isRequiredStringColumn.decorator';
-import { StatusParty } from '@/common/enums/statusParty.enum';
+import { PartyStatus } from '@/common/enums/statusParty.enum';
 import {
    Entity,
    JoinColumn,
@@ -16,10 +16,10 @@ import { Guest } from './guest.entity';
 @Entity()
 export class Party {
    @PrimaryGeneratedColumn('uuid')
-   public id: string;
+   public id?: string;
 
    @IsRequiredStringColumn()
-   public ownerId: string;
+   public ownerId?: string;
 
    @IsRequiredStringColumn()
    public name: string;
@@ -30,8 +30,8 @@ export class Party {
    @IsRequiredDateColumn()
    public date: Date;
 
-   @IsRequiredStringColumn({ enum: StatusParty, default: StatusParty.ACTIVE })
-   public status: StatusParty;
+   @IsRequiredStringColumn({ enum: PartyStatus, default: PartyStatus.ACTIVE })
+   public status?: PartyStatus;
 
    @ManyToOne(() => Address, {
       cascade: true,
@@ -39,7 +39,7 @@ export class Party {
       nullable: true,
    })
    @JoinColumn({ name: 'addressId' })
-   public address: Address;
+   public address?: Address;
 
    @IsOptionalStringColumn({ select: false })
    public addressId: string;
@@ -52,5 +52,5 @@ export class Party {
    public files?: File[];
 
    @OneToMany(() => Guest, (guest) => guest.party)
-   public guests: Guest[];
+   public guests?: Guest[];
 }
