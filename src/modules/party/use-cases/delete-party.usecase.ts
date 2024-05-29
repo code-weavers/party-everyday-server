@@ -1,4 +1,4 @@
-import { StatusParty } from '@/common/enums/statusParty.enum';
+import { PartyStatus } from '@/common/enums/statusParty.enum';
 import { Party } from '@entities/party.entity';
 import { OwnerType } from '@enums/ownerType.enum';
 import { IEnvironmentConfigService } from '@interfaces/abstracts/environmentConfigService.interface';
@@ -25,7 +25,7 @@ export class DeletePartyUseCase {
       const partyToDelete = await this.repository.findOne(id);
 
       if (partyToDelete) {
-         if (partyToDelete.status === StatusParty.ACTIVE)
+         if (partyToDelete.status === PartyStatus.ACTIVE)
             throw new NotAcceptableException({
                message: 'Party is active!',
                statusCode: HttpStatus.NOT_ACCEPTABLE,

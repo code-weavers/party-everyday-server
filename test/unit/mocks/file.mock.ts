@@ -11,6 +11,27 @@ export const file: File = {
    url: 'http://test.com/test.jpg',
 };
 
+export const fileParty: File = {
+   id: '1',
+   ownerId: '1',
+   ownerType: OwnerType.PARTY,
+   originalname: 'test.jpg',
+   key: 'testKey',
+   url: 'http://test.com/test.jpg',
+};
+
+export const filePartyList: File[] = [fileParty];
+
+export const partyFile: CreateFileDTO = {
+   ownerId: '1',
+   ownerType: OwnerType.PARTY,
+   originalname: 'test.jpg',
+   key: 'testKey',
+   url: 'http://test.com/test.jpg',
+};
+
+export const partyFileList: CreateFileDTO[] = [partyFile];
+
 export const uploadedFile: CreateFileDTO = {
    ownerId: '1',
    ownerType: OwnerType.USER,

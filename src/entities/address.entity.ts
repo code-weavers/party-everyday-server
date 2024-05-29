@@ -9,7 +9,7 @@ export class Address {
    public id: string;
 
    @IsOptionalStringColumn()
-   public name: string;
+   public name?: string;
 
    @IsRequiredStringColumn()
    public zipCode: string;
@@ -27,7 +27,7 @@ export class Address {
    public street: string;
 
    @IsOptionalStringColumn()
-   public complement: string;
+   public complement?: string;
 
    @IsRequiredNumberColumn()
    public number: number;

@@ -3,7 +3,7 @@ import { IsOptionalModel } from '@/common/decorators/validators/isOptionalModel.
 import { IsOptionalString } from '@/common/decorators/validators/isOptionalString.decorator';
 import { IsRequiredDate } from '@/common/decorators/validators/isRequiredDate.decorator';
 import { IsRequiredString } from '@/common/decorators/validators/isRequiredString.decorator';
-import { StatusParty } from '@/common/enums/statusParty.enum';
+import { PartyStatus } from '@/common/enums/statusParty.enum';
 import { CreateFileDTO } from '@/modules/file/presenters/file.dto';
 import { UserDTO } from '@/modules/user/presenters/user.dto';
 import { uuid } from 'uuidv4';
@@ -51,7 +51,7 @@ export class UpdatePartyDTO {
    public date?: Date;
 
    @IsOptionalString()
-   public status?: StatusParty;
+   public status?: PartyStatus;
 
    @IsOptionalString()
    public addressId?: string;

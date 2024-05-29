@@ -1,5 +1,5 @@
-import { StatusParty } from '@/common/enums/statusParty.enum';
-import { UserStatusParty } from '@/common/enums/userStatusParty.enum';
+import { GuestStatus } from '@/common/enums/guest.enum';
+import { PartyStatus } from '@/common/enums/statusParty.enum';
 import { AddressPresenter } from '@/modules/address/presenters/address.presenter';
 import { FilePresenter } from '@/modules/file/presenters/file.presenter';
 import { UserPresenter } from '@/modules/user/presenters/user.presenter';
@@ -7,19 +7,19 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class PartyPresenter {
    @ApiProperty()
-   public id: string;
+   public id?: string;
 
    @ApiProperty()
-   public ownerId: string;
+   public ownerId?: string;
 
    @ApiProperty()
-   public name: string;
+   public name?: string;
 
    @ApiProperty()
    public description?: string;
 
-   @ApiProperty({ enum: StatusParty })
-   public status?: StatusParty;
+   @ApiProperty({ enum: PartyStatus })
+   public status?: PartyStatus;
 
    @ApiProperty()
    public date?: Date;
@@ -48,7 +48,7 @@ export class PartyPresenter {
 
 export class GuestPresenter {
    @ApiProperty()
-   public status: UserStatusParty;
+   public status: GuestStatus;
 
    @ApiProperty()
    public user: UserPresenter;

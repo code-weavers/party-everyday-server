@@ -30,5 +30,5 @@ export class File {
       nullable: true,
       onDelete: 'CASCADE',
    })
-   public party: Party;
+   public party?: Party;
 }
