@@ -77,13 +77,13 @@ export class PartyController {
       return parties.map((party) => new PartyPresenter(party));
    }
 
-   @GetApiResponse(PartyPresenter, '/guest/me')
+   @GetApiResponse(PartyPresenter, '/guest/:id')
    public async findAllGuestParties(
-      @Req() req: IAuth,
+      @Param('id') id: string,
    ): Promise<PartyPresenter[]> {
       const parties = await this.findAllGuestPartiesUseCase
          .getInstance()
-         .execute(req.user.id);
+         .execute(id);
 
       return parties.map((party) => new PartyPresenter(party));
    }
