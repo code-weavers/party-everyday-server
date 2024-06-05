@@ -26,7 +26,9 @@ describe('FindAllOwnerPartiesUseCase', () => {
       const result = await useCase.execute('ownerId');
 
       expect(result).toEqual(partyList);
-      expect(cacheManager.getCachedObject).toHaveBeenCalledWith('ownerParties');
+      expect(cacheManager.getCachedObject).toHaveBeenCalledWith(
+         'ownerParties-ownerId',
+      );
       expect(repository.findAllOwner).not.toHaveBeenCalled();
    });
 
@@ -36,10 +38,12 @@ describe('FindAllOwnerPartiesUseCase', () => {
       const result = await useCase.execute('ownerId');
 
       expect(result).toEqual(partyList);
-      expect(cacheManager.getCachedObject).toHaveBeenCalledWith('ownerParties');
+      expect(cacheManager.getCachedObject).toHaveBeenCalledWith(
+         'ownerParties-ownerId',
+      );
       expect(repository.findAllOwner).toHaveBeenCalledWith('ownerId');
       expect(cacheManager.setObjectInCache).toHaveBeenCalledWith(
-         'ownerParties',
+         'ownerParties-ownerId',
          partyList,
       );
    });

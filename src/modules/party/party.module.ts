@@ -15,6 +15,7 @@ import { RepositoriesModule } from '../repositories.proxy.module';
 import { PartyRepository } from './party.repository';
 import { CreatePartyUseCase } from './use-cases/create-party.usecase';
 import { DeletePartyUseCase } from './use-cases/delete-party.usecase';
+import { FindAllGuestPartiesUseCase } from './use-cases/find-all-guest-parties.usecase';
 import { FindAllOwnerPartiesUseCase } from './use-cases/find-all-owner-parties.usecase';
 import { FindAllPartyUseCase } from './use-cases/find-all-party.usecase';
 import { FindOnePartyUseCase } from './use-cases/find-one-party.usecase';
@@ -37,6 +38,8 @@ export class PartyModule {
    static FIND_ALL_PARTIES_USECASES_PROXY = 'getPartiesUsecasesProxy';
    static FIND_ALL_OWNER_PARTIES_USECASES_PROXY =
       'getOwnerPartiesUsecasesProxy';
+   static FIND_ALL_GUEST_PARTIES_USECASES_PROXY =
+      'findAllGuestPartiesUsecasesProxy';
    static CREATE_PARTY_USECASES_PROXY = 'postPartyUsecasesProxy';
    static UPDATE_PARTY_USECASES_PROXY = 'putPartyUsecasesProxy';
    static UPDATE_PARTY_FILES_USECASES_PROXY = 'putPartyFileUsecasesProxy';
@@ -66,6 +69,17 @@ export class PartyModule {
                ) =>
                   new UseCaseProxy(
                      new FindAllOwnerPartiesUseCase(repository, cacheService),
+                  ),
+            },
+            {
+               inject: [PartyRepository, CacheService],
+               provide: PartyModule.FIND_ALL_GUEST_PARTIES_USECASES_PROXY,
+               useFactory: (
+                  repository: PartyRepository,
+                  cacheService: CacheService,
+               ) =>
+                  new UseCaseProxy(
+                     new FindAllGuestPartiesUseCase(repository, cacheService),
                   ),
             },
             {
@@ -170,6 +184,7 @@ export class PartyModule {
          exports: [
             PartyModule.FIND_ALL_PARTIES_USECASES_PROXY,
             PartyModule.FIND_ALL_OWNER_PARTIES_USECASES_PROXY,
+            PartyModule.FIND_ALL_GUEST_PARTIES_USECASES_PROXY,
             PartyModule.FIND_PARTY_USECASES_PROXY,
             PartyModule.CREATE_PARTY_USECASES_PROXY,
             PartyModule.UPDATE_PARTY_USECASES_PROXY,

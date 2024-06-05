@@ -89,6 +89,25 @@ describe('PartyRepository', () => {
       });
    });
 
+   describe('findAllGuest', () => {
+      it('should find all parties for a guest', async () => {
+         const guestParties = partyList.filter((party) =>
+            party.guests.some((guest) => guest.id === '1'),
+         );
+
+         jest.spyOn(repository, 'find').mockResolvedValue(guestParties);
+
+         const result = await partyRepository.findAllGuest('1');
+
+         expect(result).toEqual(guestParties);
+
+         expect(repository.find).toHaveBeenCalledWith({
+            where: { guests: { userId: '1' } },
+            order: { date: 'ASC' },
+         });
+      });
+   });
+
    describe('create', () => {
       it('should create a party and its guests', async () => {
          jest.spyOn(repository, 'create').mockReturnValue(party);
