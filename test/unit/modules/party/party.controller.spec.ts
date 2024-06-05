@@ -150,8 +150,6 @@ describe('PartyController', () => {
 
    describe('findAllGuestParties', () => {
       it('should find all guest parties using the findAllGuestParties method', async () => {
-         const mockReq = { user: { id: '1', username: '' } };
-
          jest
             .spyOn(
                partyController['findAllGuestPartiesUseCase'].getInstance(),
@@ -159,7 +157,7 @@ describe('PartyController', () => {
             )
             .mockResolvedValue(partyList);
 
-         const result = await partyController.findAllGuestParties(mockReq);
+         const result = await partyController.findAllGuestParties('1');
 
          expect(result).toBeInstanceOf(Array);
          result.forEach((party) =>
@@ -167,7 +165,7 @@ describe('PartyController', () => {
          );
          expect(
             partyController['findAllGuestPartiesUseCase'].getInstance().execute,
-         ).toHaveBeenCalledWith(mockReq.user.id);
+         ).toHaveBeenCalledWith('1');
       });
    });
 
