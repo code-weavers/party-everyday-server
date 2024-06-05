@@ -148,6 +148,29 @@ describe('PartyController', () => {
       });
    });
 
+   describe('findAllGuestParties', () => {
+      it('should find all guest parties using the findAllGuestParties method', async () => {
+         const mockReq = { user: { id: '1', username: '' } };
+
+         jest
+            .spyOn(
+               partyController['findAllGuestPartiesUseCase'].getInstance(),
+               'execute',
+            )
+            .mockResolvedValue(partyList);
+
+         const result = await partyController.findAllGuestParties(mockReq);
+
+         expect(result).toBeInstanceOf(Array);
+         result.forEach((party) =>
+            expect(party).toBeInstanceOf(PartyPresenter),
+         );
+         expect(
+            partyController['findAllGuestPartiesUseCase'].getInstance().execute,
+         ).toHaveBeenCalledWith(mockReq.user.id);
+      });
+   });
+
    describe('createParty', () => {
       it('should create a party and return an instance of PartyPresenter', async () => {
          const auth: IAuth = { user: { id: '1', username: 'testUser' } };

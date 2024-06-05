@@ -25,7 +25,7 @@ export class PartyRepository implements IPartyRepository {
 
    public async findAll(userId: string): Promise<Party[]> {
       return await this.repository.find({
-         where: { ownerId: userId, guests: { id: userId } },
+         where: { ownerId: userId, guests: { id: userId } }, //TODO: Check if this is the correct way to filter the parties
          order: { date: 'ASC' },
       });
    }
@@ -33,6 +33,13 @@ export class PartyRepository implements IPartyRepository {
    public async findAllOwner(ownerId: string): Promise<Party[]> {
       return await this.repository.find({
          where: { ownerId },
+         order: { date: 'ASC' },
+      });
+   }
+
+   public async findAllGuest(userId: string): Promise<Party[]> {
+      return await this.repository.find({
+         where: { guests: { userId } },
          order: { date: 'ASC' },
       });
    }

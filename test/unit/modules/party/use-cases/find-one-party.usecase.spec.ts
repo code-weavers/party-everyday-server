@@ -37,7 +37,7 @@ describe('FindOnePartyUseCase', () => {
       expect(result).toEqual(party);
       expect(repository.findOne).toHaveBeenCalledWith('1');
       expect(cacheManager.setObjectInCache).toHaveBeenCalledWith(
-         'party',
+         'party-1',
          party,
       );
    });
@@ -48,7 +48,7 @@ describe('FindOnePartyUseCase', () => {
 
       await expect(useCase.execute('1')).rejects.toThrow(NotFoundException);
 
-      expect(cacheManager.getCachedObject).toHaveBeenCalledWith('party');
+      expect(cacheManager.getCachedObject).toHaveBeenCalledWith('party-1');
       expect(repository.findOne).toHaveBeenCalledWith('1');
    });
 });

@@ -22,6 +22,7 @@ import { CreatePartyDTO, UpdatePartyDTO } from './presenters/party.dto';
 import { PartyPresenter } from './presenters/party.presenter';
 import { CreatePartyUseCase } from './use-cases/create-party.usecase';
 import { DeletePartyUseCase } from './use-cases/delete-party.usecase';
+import { FindAllGuestPartiesUseCase } from './use-cases/find-all-guest-parties.usecase';
 import { FindAllOwnerPartiesUseCase } from './use-cases/find-all-owner-parties.usecase';
 import { FindAllPartyUseCase } from './use-cases/find-all-party.usecase';
 import { FindOnePartyUseCase } from './use-cases/find-one-party.usecase';
@@ -36,6 +37,8 @@ export class PartyController {
       private readonly findAllPartiesUseCase: UseCaseProxy<FindAllPartyUseCase>,
       @Inject(PartyModule.FIND_ALL_OWNER_PARTIES_USECASES_PROXY)
       private readonly findAllOwnerPartiesUseCase: UseCaseProxy<FindAllOwnerPartiesUseCase>,
+      @Inject(PartyModule.FIND_ALL_GUEST_PARTIES_USECASES_PROXY)
+      private readonly findAllGuestPartiesUseCase: UseCaseProxy<FindAllGuestPartiesUseCase>,
       @Inject(PartyModule.FIND_PARTY_USECASES_PROXY)
       private readonly findOnePartyUseCase: UseCaseProxy<FindOnePartyUseCase>,
       @Inject(PartyModule.CREATE_PARTY_USECASES_PROXY)
@@ -68,6 +71,17 @@ export class PartyController {
       @Req() req: IAuth,
    ): Promise<PartyPresenter[]> {
       const parties = await this.findAllOwnerPartiesUseCase
+         .getInstance()
+         .execute(req.user.id);
+
+      return parties.map((party) => new PartyPresenter(party));
+   }
+
+   @GetApiResponse(PartyPresenter, '/guest/me')
+   public async findAllGuestParties(
+      @Req() req: IAuth,
+   ): Promise<PartyPresenter[]> {
+      const parties = await this.findAllGuestPartiesUseCase
          .getInstance()
          .execute(req.user.id);
 
