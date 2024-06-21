@@ -24,6 +24,9 @@ export class User {
    public email: string;
 
    @IsRequiredStringColumn()
+   public telephoneNumber: string;
+
+   @IsRequiredStringColumn()
    public password: string;
 
    @CreateDateColumn()

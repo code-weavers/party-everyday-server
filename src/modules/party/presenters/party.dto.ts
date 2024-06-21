@@ -1,5 +1,6 @@
 import { IsOptionalDate } from '@/common/decorators/validators/isOptionalDate.decorator';
 import { IsOptionalModel } from '@/common/decorators/validators/isOptionalModel.decorator';
+import { IsRequiredModel } from '@/common/decorators/validators/isRequiredModel.decorator';
 import { IsOptionalString } from '@/common/decorators/validators/isOptionalString.decorator';
 import { IsRequiredDate } from '@/common/decorators/validators/isRequiredDate.decorator';
 import { IsRequiredString } from '@/common/decorators/validators/isRequiredString.decorator';
@@ -31,6 +32,9 @@ export class CreatePartyDTO {
    @IsOptionalModel([CreateFileDTO])
    public files?: CreateFileDTO[];
 
+   @IsRequiredModel([CreateAddressDTO])
+   public address: CreateAddressDTO;
+
    constructor(party: CreatePartyDTO) {
       Object.assign(this, party);
       this.id = uuid();
@@ -58,6 +62,9 @@ export class UpdatePartyDTO {
 
    @IsOptionalModel([UserDTO])
    public guests?: UserDTO[];
+
+   @IsOptionalModel([CreateAddressDTO])
+   public address?: CreateAddressDTO;
 
    @IsOptionalModel([CreateFileDTO])
    public files?: CreateFileDTO[];
