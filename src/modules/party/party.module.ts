@@ -10,6 +10,7 @@ import { JwtModule } from '@services/jwt/jwt.module';
 import { S3Module } from '@services/s3/s3.module';
 import { S3Service } from '@services/s3/s3.service';
 import { UseCaseProxy } from '@utils/usecase-proxy';
+import { AddressRepository } from '../address/address.repository';
 import { FileRepository } from '../file/file.repository';
 import { RepositoriesModule } from '../repositories.proxy.module';
 import { PartyRepository } from './party.repository';
@@ -98,6 +99,7 @@ export class PartyModule {
                   LoggerService,
                   PartyRepository,
                   FileRepository,
+                  AddressRepository,
                   S3Service,
                   EnvironmentConfigService,
                ],
@@ -106,6 +108,7 @@ export class PartyModule {
                   logger: LoggerService,
                   repository: PartyRepository,
                   fileRepository: FileRepository,
+                  addressRepository: AddressRepository,
                   s3Service: S3Service,
                   config: EnvironmentConfigService,
                ) =>
@@ -114,6 +117,7 @@ export class PartyModule {
                         logger,
                         repository,
                         fileRepository,
+                        addressRepository,
                         s3Service,
                         config,
                      ),
