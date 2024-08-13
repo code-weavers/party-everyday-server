@@ -1,3 +1,4 @@
+import { IAddressRepository } from '@/common/interfaces/repositories/address.repository';
 import { Party } from '@/entities/party.entity';
 import { OwnerType } from '@enums/ownerType.enum';
 import { IEnvironmentConfigService } from '@interfaces/abstracts/environmentConfigService.interface';
@@ -13,15 +14,23 @@ export class CreatePartyUseCase {
       private readonly logger: ILogger,
       private readonly repository: IPartyRepository,
       private readonly fileRepository: IFileRepository,
+      private readonly addressRepository: IAddressRepository,
       private readonly uploadService: IUploadService,
       private readonly environmentConfig: IEnvironmentConfigService,
-   ) {}
+   ) { }
 
    public async execute(
       party: CreatePartyDTO,
       files?: CreateFileDTO[],
    ): Promise<Party> {
+
+      this.logger.log(' CreatePartyUseCases execute()', `Creating new party with params: ${JSON.stringify(party)}`)
+
       if (files) party.files = await this.createFiles(party.id, files);
+
+      const address = await this.addressRepository.create(party.address);
+
+      party.addressId = address.id;
 
       await this.repository.create(party);
 

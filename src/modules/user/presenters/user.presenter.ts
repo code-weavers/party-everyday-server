@@ -12,6 +12,9 @@ export class UserPresenter {
    public email?: string;
 
    @ApiProperty({ required: false })
+   public telephoneNumber: string;
+
+   @ApiProperty({ required: false })
    public accessToken?: string;
 
    @ApiProperty({ required: false })
@@ -27,6 +30,7 @@ export class UserPresenter {
       this.id = user.id;
       this.username = user.username;
       this.email = user.email;
+      this.telephoneNumber = user.telephoneNumber;
       this.accessToken = user.accessToken;
       this.file = user.file;
       this.createdAt = user.createdAt;

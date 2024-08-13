@@ -2,8 +2,10 @@ import { IsOptionalDate } from '@/common/decorators/validators/isOptionalDate.de
 import { IsOptionalModel } from '@/common/decorators/validators/isOptionalModel.decorator';
 import { IsOptionalString } from '@/common/decorators/validators/isOptionalString.decorator';
 import { IsRequiredDate } from '@/common/decorators/validators/isRequiredDate.decorator';
+import { IsRequiredModel } from '@/common/decorators/validators/isRequiredModel.decorator';
 import { IsRequiredString } from '@/common/decorators/validators/isRequiredString.decorator';
 import { PartyStatus } from '@/common/enums/statusParty.enum';
+import { CreateAddressDTO } from '@/modules/address/presenters/address.dto';
 import { CreateFileDTO } from '@/modules/file/presenters/file.dto';
 import { UserDTO } from '@/modules/user/presenters/user.dto';
 import { uuid } from 'uuidv4';
@@ -22,14 +24,17 @@ export class CreatePartyDTO {
    @IsRequiredDate()
    public date: Date;
 
-   @IsRequiredString()
-   public addressId: string;
+   @IsOptionalString()
+   public addressId?: string;
 
    @IsOptionalModel([UserDTO])
    public guests?: UserDTO[];
 
    @IsOptionalModel([CreateFileDTO])
    public files?: CreateFileDTO[];
+
+   @IsRequiredModel([CreateAddressDTO])
+   public address: CreateAddressDTO;
 
    constructor(party: CreatePartyDTO) {
       Object.assign(this, party);
@@ -58,6 +63,9 @@ export class UpdatePartyDTO {
 
    @IsOptionalModel([UserDTO])
    public guests?: UserDTO[];
+
+   @IsOptionalModel([CreateAddressDTO])
+   public address?: CreateAddressDTO;
 
    @IsOptionalModel([CreateFileDTO])
    public files?: CreateFileDTO[];

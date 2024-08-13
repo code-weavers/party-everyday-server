@@ -38,11 +38,11 @@ export class EnvironmentConfigService implements IEnvironmentConfigService {
    }
 
    public getBucketAccessKeyId(): string {
-      return this.configService.get<string>('AWS_ACCESS_KEY_ID');
+      return this.configService.get<string>('AWS_ACCESS_KEY');
    }
 
    public getBucketSecretAccessKey(): string {
-      return this.configService.get<string>('AWS_SECRET_ACCESS');
+      return this.configService.get<string>('AWS_ACCESS_SECRET_KEY');
    }
 
    //JWT
