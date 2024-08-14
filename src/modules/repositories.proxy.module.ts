@@ -1,3 +1,4 @@
+import { AdditionalPartyInfo } from '@/entities/additionalPartyInfo.entity';
 import { Address } from '@/entities/address.entity';
 import { Guest } from '@/entities/guest.entity';
 import { Party } from '@/entities/party.entity';
@@ -14,7 +15,7 @@ import { UserRepository } from './user/user.repository';
 @Module({
    imports: [
       TypeOrmConfigModule,
-      TypeOrmModule.forFeature([User, File, Address, Guest, Party]),
+      TypeOrmModule.forFeature([User, File, Address, Guest, Party, AdditionalPartyInfo]),
    ],
    providers: [
       UserRepository,
@@ -29,4 +30,4 @@ import { UserRepository } from './user/user.repository';
       PartyRepository,
    ],
 })
-export class RepositoriesModule {}
+export class RepositoriesModule { }
