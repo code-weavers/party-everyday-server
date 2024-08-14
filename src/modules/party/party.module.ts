@@ -14,7 +14,9 @@ import { AddressRepository } from '../address/address.repository';
 import { FileRepository } from '../file/file.repository';
 import { RepositoriesModule } from '../repositories.proxy.module';
 import { PartyRepository } from './party.repository';
+import { CreateAdditionalInfoUseCase } from './use-cases/create-additional-info.usecase';
 import { CreatePartyUseCase } from './use-cases/create-party.usecase';
+import { DeleteAdditionalInfoUseCase } from './use-cases/delete-additional-info.usecase';
 import { DeletePartyUseCase } from './use-cases/delete-party.usecase';
 import { FindAllGuestPartiesUseCase } from './use-cases/find-all-guest-parties.usecase';
 import { FindAllOwnerPartiesUseCase } from './use-cases/find-all-owner-parties.usecase';
@@ -45,6 +47,8 @@ export class PartyModule {
    static UPDATE_PARTY_USECASES_PROXY = 'putPartyUsecasesProxy';
    static UPDATE_PARTY_FILES_USECASES_PROXY = 'putPartyFileUsecasesProxy';
    static DELETE_PARTY_USECASES_PROXY = 'deletePartyUsecasesProxy';
+   static CREATE_ADDITIONAL_INFO_USECASES_PROXY = 'createAdditionalInfoUsecasesProxy';
+   static DELETE_ADDITIONAL_INFO_USECASES_PROXY = 'deleteAdditionalInfoUsecasesProxy';
 
    static register(): DynamicModule {
       return {
@@ -184,6 +188,28 @@ export class PartyModule {
                      ),
                   ),
             },
+            {
+               inject: [LoggerService, PartyRepository],
+               provide: PartyModule.CREATE_ADDITIONAL_INFO_USECASES_PROXY,
+               useFactory: (
+                  logger: LoggerService,
+                  repository: PartyRepository,
+               ) =>
+                  new UseCaseProxy(
+                     new CreateAdditionalInfoUseCase(logger, repository),
+                  ),
+            },
+            {
+               inject: [LoggerService, PartyRepository],
+               provide: PartyModule.DELETE_ADDITIONAL_INFO_USECASES_PROXY,
+               useFactory: (
+                  logger: LoggerService,
+                  repository: PartyRepository,
+               ) =>
+                  new UseCaseProxy(
+                     new DeleteAdditionalInfoUseCase(logger, repository),
+                  ),
+            }
          ],
          exports: [
             PartyModule.FIND_ALL_PARTIES_USECASES_PROXY,
@@ -194,6 +220,8 @@ export class PartyModule {
             PartyModule.UPDATE_PARTY_USECASES_PROXY,
             PartyModule.UPDATE_PARTY_FILES_USECASES_PROXY,
             PartyModule.DELETE_PARTY_USECASES_PROXY,
+            PartyModule.CREATE_ADDITIONAL_INFO_USECASES_PROXY,
+            PartyModule.DELETE_ADDITIONAL_INFO_USECASES_PROXY
          ],
       };
    }

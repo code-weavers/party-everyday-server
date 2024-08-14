@@ -9,6 +9,7 @@ import {
    OneToMany,
    PrimaryGeneratedColumn,
 } from 'typeorm';
+import { AdditionalPartyInfo } from './additionalPartyInfo.entity';
 import { Address } from './address.entity';
 import { File } from './file.entity';
 import { Guest } from './guest.entity';
@@ -53,4 +54,7 @@ export class Party {
 
    @OneToMany(() => Guest, (guest) => guest.party)
    public guests?: Guest[];
+
+   @OneToMany(() => AdditionalPartyInfo, (additionalInfo) => additionalInfo.party)
+   public additionalInfo?: AdditionalPartyInfo[];
 }

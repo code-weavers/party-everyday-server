@@ -18,9 +18,11 @@ import { FileUtils } from '@utils/file.utils';
 import { UseCaseProxy } from '@utils/usecase-proxy';
 import { CreateFileDTO } from '../file/presenters/file.dto';
 import { PartyModule } from './party.module';
-import { CreatePartyDTO, UpdatePartyDTO } from './presenters/party.dto';
-import { PartyPresenter } from './presenters/party.presenter';
+import { CreateAdditionalInfoDTO, CreatePartyDTO, UpdatePartyDTO } from './presenters/party.dto';
+import { AdditionalPartyInfoPresenter, PartyPresenter } from './presenters/party.presenter';
+import { CreateAdditionalInfoUseCase } from './use-cases/create-additional-info.usecase';
 import { CreatePartyUseCase } from './use-cases/create-party.usecase';
+import { DeleteAdditionalInfoUseCase } from './use-cases/delete-additional-info.usecase';
 import { DeletePartyUseCase } from './use-cases/delete-party.usecase';
 import { FindAllGuestPartiesUseCase } from './use-cases/find-all-guest-parties.usecase';
 import { FindAllOwnerPartiesUseCase } from './use-cases/find-all-owner-parties.usecase';
@@ -49,7 +51,11 @@ export class PartyController {
       private readonly updatePartyFileUseCase: UseCaseProxy<UpdatePartyFileUseCase>,
       @Inject(PartyModule.DELETE_PARTY_USECASES_PROXY)
       private readonly deletePartyUseCase: UseCaseProxy<DeletePartyUseCase>,
-   ) {}
+      @Inject(PartyModule.CREATE_ADDITIONAL_INFO_USECASES_PROXY)
+      private readonly createAdditionalInfoUseCase: UseCaseProxy<CreateAdditionalInfoUseCase>,
+      @Inject(PartyModule.DELETE_ADDITIONAL_INFO_USECASES_PROXY)
+      private readonly deleteAdditionalInfoUseCase: UseCaseProxy<DeleteAdditionalInfoUseCase>,
+   ) { }
 
    @GetApiResponse(PartyPresenter, ':id')
    public async findOneParty(@Param('id') id: string): Promise<PartyPresenter> {
@@ -130,6 +136,30 @@ export class PartyController {
          .execute(id, newFiles);
 
       return new PartyPresenter(updatedParty);
+   }
+
+   @PostApiResponse(AdditionalPartyInfoPresenter, '/:id/additionalInfo')
+   public async createAdditionalInfo(
+      @Param('id') id: string,
+      @Body() additionalInfo: CreateAdditionalInfoDTO,
+   ): Promise<AdditionalPartyInfoPresenter> {
+      const createdAdditionalInfo = await this.createAdditionalInfoUseCase
+         .getInstance()
+         .execute(id, additionalInfo);
+
+      return new AdditionalPartyInfoPresenter(createdAdditionalInfo);
+   }
+
+   @HttpCode(204)
+   @DeleteApiResponse('/additionalInfo/:id')
+   public async daleteAdditionalInfo(
+      @Param('id') id: string,
+   ): Promise<AdditionalPartyInfoPresenter> {
+      const deletedAdditionalInfo = await this.deleteAdditionalInfoUseCase
+         .getInstance()
+         .execute(id);
+
+      return new AdditionalPartyInfoPresenter(deletedAdditionalInfo);
    }
 
    @HttpCode(204)

@@ -33,6 +33,9 @@ export class PartyPresenter {
    @ApiProperty()
    public files?: FilePresenter[];
 
+   @ApiProperty()
+   public additionalInfo?: AdditionalPartyInfoPresenter[];
+
    constructor(props: PartyPresenter) {
       this.id = props.id;
       this.ownerId = props.ownerId;
@@ -43,6 +46,7 @@ export class PartyPresenter {
       this.address = new AddressPresenter(props.address);
       this.guests = props.guests?.map((guest) => new GuestPresenter(guest));
       this.files = props.files?.map((file) => new FilePresenter(file));
+      this.additionalInfo = props.additionalInfo?.map((info) => new AdditionalPartyInfoPresenter(info));
    }
 }
 
@@ -56,5 +60,29 @@ export class GuestPresenter {
    constructor(props: GuestPresenter) {
       this.status = props.status;
       this.user = new UserPresenter(props.user);
+   }
+}
+
+export class AdditionalPartyInfoPresenter {
+   @ApiProperty()
+   public id?: string;
+
+   @ApiProperty()
+   public partyId?: string;
+
+   @ApiProperty()
+   public name: string;
+
+   @ApiProperty()
+   public value: number;
+
+   @ApiProperty()
+   public createdAt?: Date;
+
+   constructor(props: AdditionalPartyInfoPresenter) {
+      this.id = props.id;
+      this.name = props.name;
+      this.value = props.value;
+      this.createdAt = new Date(props.createdAt);
    }
 }

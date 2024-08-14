@@ -1,33 +1,29 @@
+import { IsOptionalNumberColumn } from '@/common/decorators/columns/isOptionalnumberColumn.decorator';
 import { IsOptionalStringColumn } from '@/common/decorators/columns/isOptionalStringColumn.decorator';
 import { IsRequiredStringColumn } from '@/common/decorators/columns/isRequiredStringColumn.decorator';
 import {
    CreateDateColumn,
    Entity,
    JoinColumn,
-   OneToMany,
-   OneToOne,
+   ManyToOne,
    PrimaryGeneratedColumn,
-   UpdateDateColumn,
+   UpdateDateColumn
 } from 'typeorm';
-import { File } from './file.entity';
-import { Guest } from './guest.entity';
+import { Party } from './party.entity';
 
 @Entity()
-export class User {
+export class AdditionalPartyInfo {
    @PrimaryGeneratedColumn('uuid')
-   public id: string;
+   public id?: string;
+
+   @IsOptionalStringColumn({ select: false })
+   public partyId: string;
 
    @IsRequiredStringColumn()
-   public username: string;
+   public name: string;
 
-   @IsOptionalStringColumn()
-   public email: string;
-
-   @IsRequiredStringColumn({ nullable: true })
-   public telephoneNumber: string;
-
-   @IsRequiredStringColumn()
-   public password: string;
+   @IsOptionalNumberColumn()
+   public value: number;
 
    @CreateDateColumn()
    public createdAt: Date;
@@ -35,14 +31,11 @@ export class User {
    @UpdateDateColumn()
    public updatedAt: Date;
 
-   @OneToOne(() => File, (file) => file.ownerId, {
+   @ManyToOne(() => Party, {
       cascade: true,
       onDelete: 'CASCADE',
       nullable: true,
    })
-   @JoinColumn()
-   public file?: File;
-
-   @OneToMany(() => Guest, (guest) => guest.user)
-   public guest?: Guest[];
+   @JoinColumn({ name: 'partyId' })
+   public party?: Party;
 }

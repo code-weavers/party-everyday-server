@@ -1,5 +1,7 @@
+import { AdditionalPartyInfo } from '@/entities/additionalPartyInfo.entity';
 import { Party } from '@/entities/party.entity';
 import {
+   CreateAdditionalInfoDTO,
    CreatePartyDTO,
    UpdatePartyDTO,
 } from '@/modules/party/presenters/party.dto';
@@ -12,4 +14,6 @@ export interface IPartyRepository {
    create?(party: CreatePartyDTO): Promise<Party>;
    update?(id: string, party: UpdatePartyDTO): Promise<Party>;
    delete?(id: string): Promise<Party>;
+   createAdditionalInfo?(partyId: string, additionalInfo: CreateAdditionalInfoDTO): Promise<AdditionalPartyInfo>;
+   deleteAdditionalInfo?(additionalInfoId: string): Promise<AdditionalPartyInfo>;
 }

@@ -3,6 +3,7 @@ import { IsOptionalModel } from '@/common/decorators/validators/isOptionalModel.
 import { IsOptionalString } from '@/common/decorators/validators/isOptionalString.decorator';
 import { IsRequiredDate } from '@/common/decorators/validators/isRequiredDate.decorator';
 import { IsRequiredModel } from '@/common/decorators/validators/isRequiredModel.decorator';
+import { IsRequiredNumber } from '@/common/decorators/validators/isRequiredNumber.decorator';
 import { IsRequiredString } from '@/common/decorators/validators/isRequiredString.decorator';
 import { PartyStatus } from '@/common/enums/statusParty.enum';
 import { CreateAddressDTO } from '@/modules/address/presenters/address.dto';
@@ -72,5 +73,17 @@ export class UpdatePartyDTO {
 
    constructor(props: UpdatePartyDTO) {
       Object.assign(this, props);
+   }
+}
+
+export class CreateAdditionalInfoDTO {
+   @IsRequiredString()
+   public name: string;
+
+   @IsRequiredNumber()
+   public value: number;
+
+   constructor(additionalInfo: CreateAdditionalInfoDTO) {
+      Object.assign(this, additionalInfo);
    }
 }
