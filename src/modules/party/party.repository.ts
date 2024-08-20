@@ -5,7 +5,7 @@ import { Party } from '@/entities/party.entity';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateAdditionalInfoDTO, CreatePartyDTO, UpdatePartyDTO } from './presenters/party.dto';
+import { AddGuestDTO, CreateAdditionalInfoDTO, CreatePartyDTO, UpdatePartyDTO } from './presenters/party.dto';
 
 @Injectable()
 export class PartyRepository implements IPartyRepository {
@@ -21,14 +21,13 @@ export class PartyRepository implements IPartyRepository {
    public async findOne(id: string): Promise<Party> {
       return await this.repository.findOne({
          where: { id },
-         relations: ['guests.user', 'address', 'files', 'additionalInfo'],
+         relations: ['guests', 'guests.user', 'address', 'files', 'additionalInfo'],
          order: { date: 'ASC' },
       });
    }
 
-   public async findAll(userId: string): Promise<Party[]> {
+   public async findAll(): Promise<Party[]> {
       return await this.repository.find({
-         where: { ownerId: userId, guests: { id: userId } }, //TODO: Check if this is the correct way to filter the parties
          order: { date: 'ASC' },
       });
    }
@@ -40,9 +39,9 @@ export class PartyRepository implements IPartyRepository {
       });
    }
 
-   public async findAllGuest(userId: string): Promise<Party[]> {
+   public async findAllInvited(userId: string): Promise<Party[]> {
       return await this.repository.find({
-         where: { guests: { userId } },
+         where: { guests: { id: userId } },
          order: { date: 'ASC' },
       });
    }
@@ -92,20 +91,41 @@ export class PartyRepository implements IPartyRepository {
       return party;
    }
 
-   public async createAdditionalInfo(partyId: string, additionalInfo: CreateAdditionalInfoDTO): Promise<AdditionalPartyInfo> {
-      const newAdditionalInfo = this.additionalInfoRepository.create({
-         ...additionalInfo,
+   public async createAdditionalInfo(partyId: string, additionalInfo: CreateAdditionalInfoDTO[]): Promise<Party> {
+      const newAdditionalInfo = additionalInfo.map((info) => this.additionalInfoRepository.create({
+         ...info,
          partyId,
-      });
+      }));
 
-      return await this.additionalInfoRepository.save(newAdditionalInfo);
+      await this.additionalInfoRepository.save(newAdditionalInfo);
+
+      return await this.findOne(partyId);
    }
 
-   public async deleteAdditionalInfo(id: string): Promise<AdditionalPartyInfo> {
+   public async deleteAdditionalInfo(id: string): Promise<Party> {
       const additionalInfo = await this.additionalInfoRepository.findOne({ where: { id } });
 
       await this.additionalInfoRepository.delete({ id });
 
-      return additionalInfo;
+      return await this.findOne(additionalInfo.partyId);
+   }
+
+   public async addGuests(partyId: string, guests: AddGuestDTO): Promise<Party> {
+      const newGuests = guests.guests.map((guest) => this.guestRepository.create({
+         userId: guest,
+         partyId,
+      }));
+
+      await this.guestRepository.save(newGuests);
+
+      return await this.findOne(partyId);
+   }
+
+   public async deleteGuest(id: string): Promise<Party> {
+      const guest = await this.guestRepository.findOne({ where: { id } });
+
+      await this.guestRepository.delete({ id });
+
+      return await this.findOne(guest.partyId);
    }
 }

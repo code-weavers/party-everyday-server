@@ -17,7 +17,7 @@ export class AdditionalPartyInfo {
    public id?: string;
 
    @IsOptionalStringColumn({ select: false })
-   public partyId: string;
+   public partyId?: string;
 
    @IsRequiredStringColumn()
    public name: string;
@@ -29,7 +29,7 @@ export class AdditionalPartyInfo {
    public createdAt: Date;
 
    @UpdateDateColumn()
-   public updatedAt: Date;
+   public updatedAt?: Date;
 
    @ManyToOne(() => Party, {
       cascade: true,

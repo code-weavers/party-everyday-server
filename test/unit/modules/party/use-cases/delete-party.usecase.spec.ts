@@ -8,7 +8,7 @@ import { DeletePartyUseCase } from '@/modules/party/use-cases/delete-party.useca
 import { createMock } from '@golevelup/ts-jest';
 import { NotAcceptableException, NotFoundException } from '@nestjs/common';
 import { filePartyList } from '../../../mocks/file.mock';
-import { party } from '../../../mocks/party.mock';
+import { partyMock } from '../../../mocks/party.mock';
 
 describe('DeletePartyUseCase', () => {
    let deletePartyUseCase: DeletePartyUseCase;
@@ -40,7 +40,7 @@ describe('DeletePartyUseCase', () => {
    });
 
    it('should delete a party when it is not active', async () => {
-      const inactive = { ...party, status: PartyStatus.INACTIVE };
+      const inactive = { ...partyMock, status: PartyStatus.INACTIVE };
 
       jest.spyOn(repository, 'findOne').mockResolvedValue(inactive);
       jest.spyOn(repository, 'delete').mockResolvedValue(inactive);
@@ -57,7 +57,7 @@ describe('DeletePartyUseCase', () => {
    });
 
    it('should throw an exception when the party is active', async () => {
-      jest.spyOn(repository, 'findOne').mockResolvedValue(party);
+      jest.spyOn(repository, 'findOne').mockResolvedValue(partyMock);
 
       await expect(deletePartyUseCase.execute('1')).rejects.toThrow(
          NotAcceptableException,

@@ -87,6 +87,7 @@ describe('LoginUseCase', () => {
             id: authPresenter.id,
             email: authPresenter.email,
             username: authPresenter.username,
+            telephoneNumber: authPresenter.telephoneNumber,
             file: authPresenter.file,
             accessToken: 'token',
          });
@@ -156,6 +157,7 @@ describe('LoginUseCase', () => {
             id: userWithFile.id,
             email: userWithFile.email,
             username: userWithFile.username,
+            telephoneNumber: userWithFile.telephoneNumber,
             file: userWithFile.file,
          });
       });

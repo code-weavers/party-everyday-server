@@ -1,18 +1,20 @@
 import { IEnvironmentConfigService } from '@/common/interfaces/abstracts/environmentConfigService.interface';
 import { ILogger } from '@/common/interfaces/abstracts/logger.interface';
 import { IUploadService } from '@/common/interfaces/abstracts/upload.service';
+import { IAddressRepository } from '@/common/interfaces/repositories/address.repository';
 import { IFileRepository } from '@/common/interfaces/repositories/file.repository';
 import { IPartyRepository } from '@/common/interfaces/repositories/party.repository';
 import { CreatePartyUseCase } from '@/modules/party/use-cases/create-party.usecase';
 import { createMock } from '@golevelup/ts-jest';
 import { partyFileList } from '../../../mocks/file.mock';
-import { createPartyDTO, party } from '../../../mocks/party.mock';
+import { createPartyDTO, partyMock } from '../../../mocks/party.mock';
 
 describe('CreatePartyUseCase', () => {
    let useCase: CreatePartyUseCase;
    let logger: ILogger;
    let repository: IPartyRepository;
    let fileRepository: IFileRepository;
+   let addressRepository: IAddressRepository;
    let uploadService: IUploadService;
    let environmentConfig: IEnvironmentConfigService;
 
@@ -23,6 +25,7 @@ describe('CreatePartyUseCase', () => {
          findOne: jest.fn(),
       });
       fileRepository = createMock<IFileRepository>({ create: jest.fn() });
+      addressRepository = createMock<IAddressRepository>({ create: jest.fn() });
       uploadService = createMock<IUploadService>({ uploadFile: jest.fn() });
       environmentConfig = createMock<IEnvironmentConfigService>({
          getCloudUpload: jest.fn(),
@@ -32,13 +35,15 @@ describe('CreatePartyUseCase', () => {
          logger,
          repository,
          fileRepository,
+         addressRepository,
          uploadService,
          environmentConfig,
       );
    });
 
    it('should create a party without files', async () => {
-      jest.spyOn(repository, 'findOne').mockResolvedValue(party);
+      jest.spyOn(repository, 'findOne').mockResolvedValue(partyMock);
+      jest.spyOn(addressRepository, 'create').mockResolvedValue(partyMock.address);
 
       const result = await useCase.execute(createPartyDTO);
 
@@ -46,23 +51,25 @@ describe('CreatePartyUseCase', () => {
          'CreatePartyUseCases execute()',
          'New party have been created',
       );
-      expect(result).toEqual(party);
+      expect(result).toEqual(partyMock);
    });
 
    it('should create a party with files and without cloud upload', async () => {
-      jest.spyOn(repository, 'findOne').mockResolvedValue(party);
+      jest.spyOn(repository, 'findOne').mockResolvedValue(partyMock);
       jest.spyOn(environmentConfig, 'getCloudUpload').mockReturnValue(false);
+      jest.spyOn(addressRepository, 'create').mockResolvedValue(partyMock.address);
 
       const result = await useCase.execute(createPartyDTO, partyFileList);
 
       expect(fileRepository.create).toHaveBeenCalledTimes(partyFileList.length);
       expect(uploadService.uploadFile).not.toHaveBeenCalled();
-      expect(result).toEqual(party);
+      expect(result).toEqual(partyMock);
    });
 
    it('should create a party with files and with cloud upload', async () => {
-      jest.spyOn(repository, 'findOne').mockResolvedValue(party);
+      jest.spyOn(repository, 'findOne').mockResolvedValue(partyMock);
       jest.spyOn(environmentConfig, 'getCloudUpload').mockReturnValue(true);
+      jest.spyOn(addressRepository, 'create').mockResolvedValue(partyMock.address);
       jest
          .spyOn(uploadService, 'uploadFile')
          .mockResolvedValue({ url: 'uploadedFile' });
@@ -73,6 +80,6 @@ describe('CreatePartyUseCase', () => {
       expect(uploadService.uploadFile).toHaveBeenCalledTimes(
          partyFileList.length,
       );
-      expect(result).toEqual(party);
+      expect(result).toEqual(partyMock);
    });
 });

@@ -4,6 +4,9 @@ import { IsRequiredNumber } from '@/common/decorators/validators/isRequiredNumbe
 import { IsRequiredString } from '@/common/decorators/validators/isRequiredString.decorator';
 
 export class CreateAddressDTO {
+   @IsOptionalString()
+   public id?: string;
+
    @IsRequiredString()
    public zipCode: string;
 

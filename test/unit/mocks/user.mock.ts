@@ -10,6 +10,7 @@ export const user: User = {
    username: 'John Doe',
    email: 'test@test.com',
    password: 'hashedPassword',
+   telephoneNumber: '123456789',
    createdAt: new Date(),
    updatedAt: new Date(),
 };
@@ -19,6 +20,7 @@ export const userWithFile: User = {
    username: 'John Doe',
    email: 'test@test.com',
    password: 'hashedPassword',
+   telephoneNumber: '123456789',
    file: {
       id: '1',
       ownerId: '1',
@@ -36,6 +38,7 @@ export const userWithoutDates = {
    username: 'John Doe',
    email: 'test@test.com',
    password: 'hashedPassword',
+   telephoneNumber: '123456789',
    file: {
       id: '1',
       ownerId: '1',
@@ -52,6 +55,7 @@ export const users: User[] = [
       username: 'John Doe',
       email: 'test@test.com',
       password: 'hashedPassword',
+      telephoneNumber: '123456789',
       createdAt: new Date(),
       updatedAt: new Date(),
    },
@@ -62,10 +66,12 @@ export const createUserDTO: CreateUserDTO = {
    username: 'John Doe',
    email: 'test@test.com',
    password: 'hashedPassword',
+   telephoneNumber: '123456789',
 };
 
 export const updateUserDTO: UpdateUserDTO = {
    username: 'John Doe',
    email: 'test@test.com',
    password: 'hashedPassword',
+   telephoneNumber: '123456789',
 };

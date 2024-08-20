@@ -52,12 +52,16 @@ export class PartyPresenter {
 
 export class GuestPresenter {
    @ApiProperty()
+   public id: string;
+
+   @ApiProperty()
    public status: GuestStatus;
 
    @ApiProperty()
    public user: UserPresenter;
 
    constructor(props: GuestPresenter) {
+      this.id = props.id;
       this.status = props.status;
       this.user = new UserPresenter(props.user);
    }

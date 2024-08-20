@@ -12,7 +12,7 @@ export class UserDTO {
    public username?: string;
 
    @IsOptionalString()
-   public email?: string;   
+   public email?: string;
 
    @IsOptionalString()
    public password?: string;
@@ -57,7 +57,7 @@ export class UpdateUserDTO {
    public email?: string;
 
    @IsOptionalString()
-   public telephoneNumber: string;
+   public telephoneNumber?: string;
 
    @IsOptionalString()
    public password?: string;

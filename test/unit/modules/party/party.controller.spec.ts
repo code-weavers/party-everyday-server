@@ -6,10 +6,14 @@ import { PartyModule } from '@/modules/party/party.module';
 import { PartyPresenter } from '@/modules/party/presenters/party.presenter';
 import { createMock } from '@golevelup/ts-jest';
 import { Test, TestingModule } from '@nestjs/testing';
+import { createAdditionalInfosMock } from '../../mocks/additionalInfo.mock';
 import { multerFile } from '../../mocks/file.mock';
+import { createGuestMock } from '../../mocks/guest.mock';
 import {
    createPartyDTO,
    partyList,
+   partyMock,
+   partyWithAdditionalInfoMock,
    updatePartyDTO,
 } from '../../mocks/party.mock';
 
@@ -104,7 +108,6 @@ describe('PartyController', () => {
 
    describe('findAllParties', () => {
       it('should return all parties', async () => {
-         const mockReq = { user: { id: '1', username: '' } };
          const mockParties = partyList.map(
             (party) => new PartyPresenter(party),
          );
@@ -116,12 +119,12 @@ describe('PartyController', () => {
             )
             .mockResolvedValue(partyList);
 
-         const result = await partyController.findAllParties(mockReq);
+         const result = await partyController.findAllParties();
 
          expect(result).toEqual(mockParties);
          expect(
             partyController['findAllPartiesUseCase'].getInstance().execute,
-         ).toHaveBeenCalledWith('1');
+         ).toHaveBeenCalled();
       });
    });
 
@@ -157,7 +160,7 @@ describe('PartyController', () => {
             )
             .mockResolvedValue(partyList);
 
-         const result = await partyController.findAllGuestParties('1');
+         const result = await partyController.findAllInvitedParties('1');
 
          expect(result).toBeInstanceOf(Array);
          result.forEach((party) =>
@@ -265,6 +268,74 @@ describe('PartyController', () => {
          expect(
             partyController['deletePartyUseCase'].getInstance().execute,
          ).toHaveBeenCalledWith(mockId);
+      });
+   });
+
+   describe('createAdditionalInfo', () => {
+      it('should create additional info and return an instance of PartyPresenter', async () => {
+         const additionalInfosMock = [{ name: "teste", value: 1 }]
+         jest
+            .spyOn(
+               partyController['createAdditionalInfoUseCase'].getInstance(),
+               'execute',
+            )
+            .mockResolvedValue(partyWithAdditionalInfoMock);
+
+         const result = await partyController.createAdditionalInfo('1', createAdditionalInfosMock,);
+
+         expect(result).toBeInstanceOf(PartyPresenter);
+         expect(
+            partyController['createAdditionalInfoUseCase'].getInstance().execute,
+         ).toHaveBeenCalledWith('1', additionalInfosMock);
+      });
+   });
+
+   describe('deleteAdditionalInfo', () => {
+      it('should delete additional info and return an instance of PartyPresenter', async () => {
+         jest
+            .spyOn(
+               partyController['deleteAdditionalInfoUseCase'].getInstance(),
+               'execute',
+            )
+            .mockResolvedValue(partyMock);
+
+         const result = await partyController.deleteAdditionalInfo('1');
+
+         expect(result).toBeInstanceOf(PartyPresenter);
+         expect(
+            partyController['deleteAdditionalInfoUseCase'].getInstance().execute,
+         ).toHaveBeenCalledWith('1');
+      });
+   });
+
+   describe('addGuests', () => {
+      it('should add guests to a party and return an instance of PartyPresenter', async () => {
+         jest
+            .spyOn(partyController['addGuestUseCase'].getInstance(), 'execute')
+            .mockResolvedValue(partyMock);
+
+         const result = await partyController.addGuests('1', createGuestMock);
+
+         expect(result).toBeInstanceOf(PartyPresenter);
+         expect(partyController['addGuestUseCase'].getInstance().execute).toHaveBeenCalledWith('1', createGuestMock);
+      });
+   });
+
+   describe('deleteGuest', () => {
+      it('should delete a guest and return an instance of PartyPresenter', async () => {
+         jest
+            .spyOn(
+               partyController['removeGuestUseCase'].getInstance(),
+               'execute',
+            )
+            .mockResolvedValue(partyMock);
+
+         const result = await partyController.deleteGuest('1');
+
+         expect(result).toBeInstanceOf(PartyPresenter);
+         expect(
+            partyController['removeGuestUseCase'].getInstance().execute,
+         ).toHaveBeenCalledWith('1');
       });
    });
 });

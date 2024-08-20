@@ -1,4 +1,4 @@
-import { AdditionalPartyInfo } from '@/entities/additionalPartyInfo.entity';
+import { Party } from '@/entities/party.entity';
 import { ILogger } from '@interfaces/abstracts/logger.interface';
 import { IPartyRepository } from '@interfaces/repositories/party.repository';
 import { CreateAdditionalInfoDTO } from '../presenters/party.dto';
@@ -9,7 +9,7 @@ export class CreateAdditionalInfoUseCase {
       private readonly repository: IPartyRepository,
    ) { }
 
-   public async execute(partyId: string, additionalInfo: CreateAdditionalInfoDTO): Promise<AdditionalPartyInfo> {
+   public async execute(partyId: string, additionalInfo: CreateAdditionalInfoDTO[]): Promise<Party> {
       this.logger.log(' CreateAdditionalInfoUseCase execute()', `Creating new additional info with params: ${JSON.stringify(additionalInfo)}`)
 
       const createdAdditionalInfo = await this.repository.createAdditionalInfo(partyId, additionalInfo);

@@ -1,4 +1,4 @@
-import { FindAllGuestPartiesUseCase } from '@/modules/party/use-cases/find-all-guest-parties.usecase';
+import { FindAllGuestPartiesUseCase } from '@/modules/party/use-cases/find-all-invited-parties.usecase';
 import { createMock } from '@golevelup/ts-jest';
 import { ICacheManager } from '@interfaces/abstracts/cache.service';
 import { IPartyRepository } from '@interfaces/repositories/party.repository';
@@ -40,7 +40,7 @@ describe('FindAllGuestPartiesUseCase', () => {
          'guestParties-' + guestId,
       );
 
-      expect(mockPartyRepository.findAllGuest).not.toHaveBeenCalled();
+      expect(mockPartyRepository.findAllInvited).not.toHaveBeenCalled();
    });
 
    it('should return parties from repository and cache them if they do not exist in cache', async () => {
@@ -48,7 +48,7 @@ describe('FindAllGuestPartiesUseCase', () => {
 
       jest.spyOn(mockCacheManager, 'getCachedObject').mockResolvedValue(null);
       jest
-         .spyOn(mockPartyRepository, 'findAllGuest')
+         .spyOn(mockPartyRepository, 'findAllInvited')
          .mockResolvedValue(partyList);
 
       const result = await useCase.execute(guestId);

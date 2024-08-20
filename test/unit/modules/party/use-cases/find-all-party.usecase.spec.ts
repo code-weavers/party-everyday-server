@@ -21,22 +21,18 @@ describe('FindAllPartyUseCase', () => {
    });
 
    it('should return cached parties if they exist', async () => {
-      const ownerId = 'testOwnerId';
-
       jest.spyOn(cacheManager, 'getCachedObject').mockResolvedValue(partyList);
 
-      const result = await useCase.execute(ownerId);
+      const result = await useCase.execute();
 
       expect(result).toEqual(partyList);
    });
 
    it('should fetch parties from repository and cache them if they do not exist in cache', async () => {
-      const ownerId = 'testOwnerId';
-
       jest.spyOn(cacheManager, 'getCachedObject').mockResolvedValue(null);
       jest.spyOn(repository, 'findAll').mockResolvedValue(partyList);
 
-      const result = await useCase.execute(ownerId);
+      const result = await useCase.execute();
 
       expect(result).toEqual(partyList);
       expect(cacheManager.setObjectInCache).toHaveBeenCalledWith(
