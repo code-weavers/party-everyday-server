@@ -20,10 +20,10 @@ export const getTypeOrmModuleOptions = (
       extra:
          process.env.ENVIRONMENT === 'production'
             ? {
-                 ssl: {
-                    rejectUnauthorized: false,
-                 },
-              }
+               ssl: {
+                  rejectUnauthorized: false,
+               },
+            }
             : {},
    }) as TypeOrmModuleOptions;
 
@@ -36,4 +36,4 @@ export const getTypeOrmModuleOptions = (
       }),
    ],
 })
-export class TypeOrmConfigModule {}
+export class TypeOrmConfigModule { }

@@ -1,4 +1,5 @@
 import { NestFactory } from '@nestjs/core';
+import { connect } from '@ngrok/ngrok';
 import { AppModule } from './app.module';
 import { SetupInterceptor } from './common/utils/setupInterceptor';
 import { SetupPipe } from './common/utils/setupPipe';
@@ -17,5 +18,9 @@ async function server() {
    SetupSwagger.for(app);
 
    await app.listen(port);
+
+   connect({ addr: port, authtoken_from_env: true }).then((listener) =>
+      console.log(`Ingress established at: ${listener.url()}`),
+   );
 }
 server();

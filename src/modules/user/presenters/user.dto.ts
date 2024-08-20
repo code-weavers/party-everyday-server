@@ -35,6 +35,9 @@ export class CreateUserDTO {
    public email: string;
 
    @IsRequiredString()
+   public telephoneNumber: string;
+
+   @IsRequiredString()
    public password: string;
 
    @IsOptionalModel([CreateFileDTO])
@@ -52,6 +55,9 @@ export class UpdateUserDTO {
 
    @IsOptionalString()
    public email?: string;
+
+   @IsOptionalString()
+   public telephoneNumber?: string;
 
    @IsOptionalString()
    public password?: string;

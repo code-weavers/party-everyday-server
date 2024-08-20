@@ -4,11 +4,13 @@ import {
    CreateDateColumn,
    Entity,
    JoinColumn,
+   OneToMany,
    OneToOne,
    PrimaryGeneratedColumn,
    UpdateDateColumn,
 } from 'typeorm';
 import { File } from './file.entity';
+import { Guest } from './guest.entity';
 
 @Entity()
 export class User {
@@ -20,6 +22,9 @@ export class User {
 
    @IsOptionalStringColumn()
    public email: string;
+
+   @IsRequiredStringColumn({ nullable: true })
+   public telephoneNumber: string;
 
    @IsRequiredStringColumn()
    public password: string;
@@ -37,4 +42,7 @@ export class User {
    })
    @JoinColumn()
    public file?: File;
+
+   @OneToMany(() => Guest, (guest) => guest.user)
+   public guest?: Guest[];
 }

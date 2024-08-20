@@ -12,6 +12,9 @@ export class AuthPresenter {
    public username: string;
 
    @IsRequiredString()
+   public telephoneNumber: string;
+
+   @IsRequiredString()
    public accessToken: string;
 
    public file: FilePresenter;
@@ -20,6 +23,7 @@ export class AuthPresenter {
       this.id = auth.id;
       this.email = auth.email;
       this.username = auth.username;
+      this.telephoneNumber = auth.telephoneNumber;
       this.accessToken = auth.accessToken;
       this.file = new FilePresenter(auth.file);
    }

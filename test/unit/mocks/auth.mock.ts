@@ -10,6 +10,7 @@ export const authPresenter: AuthPresenter = {
    id: '1',
    email: 'test@test.com',
    username: 'John Doe',
+   telephoneNumber: '123456789',
    accessToken: 'token',
    file: {
       url: 'testUrl',

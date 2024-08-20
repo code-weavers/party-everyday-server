@@ -13,7 +13,7 @@ export class LoginUseCase {
       private readonly jwtService: IJwtService,
       private readonly bcryptService: IBcryptService,
       private readonly userRepository: IUserRepository,
-   ) {}
+   ) { }
 
    public async execute(credentials: AuthDTO): Promise<AuthPresenter> {
       const userValidated: Omit<User, 'password' | 'createdAt' | 'updatedAt'> =
@@ -33,6 +33,7 @@ export class LoginUseCase {
          id: userValidated.id,
          email: userValidated.email,
          username: userValidated.username,
+         telephoneNumber: userValidated.telephoneNumber,
          file: userValidated.file,
          accessToken,
       });
