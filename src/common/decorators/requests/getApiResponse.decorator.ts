@@ -13,6 +13,7 @@ import {
 export const GetApiResponse = <TModel extends Type<any>>(
    model: TModel,
    param?: string,
+   isArray = false,
 ) => {
    return applyDecorators(
       Get(param),
@@ -25,7 +26,7 @@ export const GetApiResponse = <TModel extends Type<any>>(
       }),
       ApiOkResponse({
          description: 'The record has been successfully getted.',
-         type: model,
+         type: isArray ? [model] : model,
       }),
       ApiBadRequestResponse({
          description:

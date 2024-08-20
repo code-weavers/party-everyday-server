@@ -15,6 +15,7 @@ export const PostApiResponse = <TModel extends Type<any>>(
    model: TModel,
    param?: string,
    required = true,
+   isArray = false,
 ) => {
    return applyDecorators(
       Post(param),
@@ -27,11 +28,11 @@ export const PostApiResponse = <TModel extends Type<any>>(
       }),
       ApiCreatedResponse({
          description: 'The object has been successfully created.',
-         type: model,
+         type: isArray ? [model] : model,
       }),
       ApiOkResponse({
          description: 'The object has been successfully retrieved',
-         type: model,
+         type: isArray ? [model] : model,
       }),
       ApiBadRequestResponse({
          description:

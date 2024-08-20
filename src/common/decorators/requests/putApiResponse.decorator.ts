@@ -13,6 +13,7 @@ import {
 export const PutApiResponse = <TModel extends Type<any>>(
    model: TModel,
    param: string,
+   isArray = false,
 ) => {
    return applyDecorators(
       Put(param),
@@ -25,7 +26,7 @@ export const PutApiResponse = <TModel extends Type<any>>(
       }),
       ApiOkResponse({
          description: 'The object has been successfully updated.',
-         type: model,
+         type: isArray ? [model] : model,
       }),
       ApiBadRequestResponse({
          description:

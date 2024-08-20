@@ -18,16 +18,18 @@ import { FileUtils } from '@utils/file.utils';
 import { UseCaseProxy } from '@utils/usecase-proxy';
 import { CreateFileDTO } from '../file/presenters/file.dto';
 import { PartyModule } from './party.module';
-import { CreateAdditionalInfoDTO, CreatePartyDTO, UpdatePartyDTO } from './presenters/party.dto';
-import { AdditionalPartyInfoPresenter, PartyPresenter } from './presenters/party.presenter';
+import { AddGuestDTO, CreateAdditionalInfoDTO, CreatePartyDTO, UpdatePartyDTO } from './presenters/party.dto';
+import { PartyPresenter } from './presenters/party.presenter';
+import { AddGuestsUseCase } from './use-cases/add-guests.usecase';
 import { CreateAdditionalInfoUseCase } from './use-cases/create-additional-info.usecase';
 import { CreatePartyUseCase } from './use-cases/create-party.usecase';
 import { DeleteAdditionalInfoUseCase } from './use-cases/delete-additional-info.usecase';
 import { DeletePartyUseCase } from './use-cases/delete-party.usecase';
-import { FindAllGuestPartiesUseCase } from './use-cases/find-all-guest-parties.usecase';
+import { FindAllGuestPartiesUseCase } from './use-cases/find-all-invited-parties.usecase';
 import { FindAllOwnerPartiesUseCase } from './use-cases/find-all-owner-parties.usecase';
 import { FindAllPartyUseCase } from './use-cases/find-all-party.usecase';
 import { FindOnePartyUseCase } from './use-cases/find-one-party.usecase';
+import { RemoveGuestUseCase } from './use-cases/remove-guest.usecase';
 import { UpdatePartyFileUseCase } from './use-cases/update-party-file.usecase';
 import { UpdatePartyUseCase } from './use-cases/update-party.usecase';
 
@@ -55,6 +57,10 @@ export class PartyController {
       private readonly createAdditionalInfoUseCase: UseCaseProxy<CreateAdditionalInfoUseCase>,
       @Inject(PartyModule.DELETE_ADDITIONAL_INFO_USECASES_PROXY)
       private readonly deleteAdditionalInfoUseCase: UseCaseProxy<DeleteAdditionalInfoUseCase>,
+      @Inject(PartyModule.ADD_GUEST_USECASES_PROXY)
+      private readonly addGuestUseCase: UseCaseProxy<AddGuestsUseCase>,
+      @Inject(PartyModule.REMOVE_GUEST_USECASES_PROXY)
+      private readonly removeGuestUseCase: UseCaseProxy<RemoveGuestUseCase>,
    ) { }
 
    @GetApiResponse(PartyPresenter, ':id')
@@ -63,16 +69,16 @@ export class PartyController {
       return new PartyPresenter(party);
    }
 
-   @GetApiResponse(PartyPresenter)
-   public async findAllParties(@Req() req: IAuth): Promise<PartyPresenter[]> {
+   @GetApiResponse(PartyPresenter, '', true)
+   public async findAllParties(): Promise<PartyPresenter[]> {
       const parties = await this.findAllPartiesUseCase
          .getInstance()
-         .execute(req.user.id);
+         .execute();
 
       return parties.map((party) => new PartyPresenter(party));
    }
 
-   @GetApiResponse(PartyPresenter, '/owner/me')
+   @GetApiResponse(PartyPresenter, '/owner/me', true)
    public async findAllOwnerParties(
       @Req() req: IAuth,
    ): Promise<PartyPresenter[]> {
@@ -83,8 +89,8 @@ export class PartyController {
       return parties.map((party) => new PartyPresenter(party));
    }
 
-   @GetApiResponse(PartyPresenter, '/guest/:id')
-   public async findAllGuestParties(
+   @GetApiResponse(PartyPresenter, '/invited/:id', true)
+   public async findAllInvitedParties(
       @Param('id') id: string,
    ): Promise<PartyPresenter[]> {
       const parties = await this.findAllGuestPartiesUseCase
@@ -138,30 +144,6 @@ export class PartyController {
       return new PartyPresenter(updatedParty);
    }
 
-   @PostApiResponse(AdditionalPartyInfoPresenter, '/:id/additionalInfo')
-   public async createAdditionalInfo(
-      @Param('id') id: string,
-      @Body() additionalInfo: CreateAdditionalInfoDTO,
-   ): Promise<AdditionalPartyInfoPresenter> {
-      const createdAdditionalInfo = await this.createAdditionalInfoUseCase
-         .getInstance()
-         .execute(id, additionalInfo);
-
-      return new AdditionalPartyInfoPresenter(createdAdditionalInfo);
-   }
-
-   @HttpCode(204)
-   @DeleteApiResponse('/additionalInfo/:id')
-   public async daleteAdditionalInfo(
-      @Param('id') id: string,
-   ): Promise<AdditionalPartyInfoPresenter> {
-      const deletedAdditionalInfo = await this.deleteAdditionalInfoUseCase
-         .getInstance()
-         .execute(id);
-
-      return new AdditionalPartyInfoPresenter(deletedAdditionalInfo);
-   }
-
    @HttpCode(204)
    @DeleteApiResponse('/:id')
    public async deleteParty(@Param('id') id: string): Promise<PartyPresenter> {
@@ -170,5 +152,53 @@ export class PartyController {
          .execute(id);
 
       return new PartyPresenter(deletedParty);
+   }
+
+   @PostApiResponse(PartyPresenter, '/:id/additionalInfo')
+   public async createAdditionalInfo(
+      @Param('id') id: string,
+      @Body() additionalInfo: CreateAdditionalInfoDTO[],
+   ): Promise<PartyPresenter> {
+      const createdAdditionalPartyInfo = await this.createAdditionalInfoUseCase
+         .getInstance()
+         .execute(id, additionalInfo);
+
+      return new PartyPresenter(createdAdditionalPartyInfo);
+   }
+
+   @HttpCode(204)
+   @DeleteApiResponse('/additionalInfo/:id')
+   public async deleteAdditionalInfo(
+      @Param('id') id: string,
+   ): Promise<PartyPresenter> {
+      const deletedAdditionalPartyInfo = await this.deleteAdditionalInfoUseCase
+         .getInstance()
+         .execute(id);
+
+      return new PartyPresenter(deletedAdditionalPartyInfo);
+   }
+
+   @PostApiResponse(PartyPresenter, '/:id/guests')
+   public async addGuests(
+      @Param('id') id: string,
+      @Body() guests: AddGuestDTO,
+   ): Promise<PartyPresenter> {
+      const addedGuestsParty = await this.addGuestUseCase
+         .getInstance()
+         .execute(id, guests);
+
+      return new PartyPresenter(addedGuestsParty);
+   }
+
+   @HttpCode(204)
+   @DeleteApiResponse('/guests/:id')
+   public async deleteGuest(
+      @Param('id') id: string,
+   ): Promise<PartyPresenter> {
+      const deletedGuestParty = await this.removeGuestUseCase
+         .getInstance()
+         .execute(id);
+
+      return new PartyPresenter(deletedGuestParty);
    }
 }

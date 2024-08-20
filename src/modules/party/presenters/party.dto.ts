@@ -9,6 +9,8 @@ import { PartyStatus } from '@/common/enums/statusParty.enum';
 import { CreateAddressDTO } from '@/modules/address/presenters/address.dto';
 import { CreateFileDTO } from '@/modules/file/presenters/file.dto';
 import { UserDTO } from '@/modules/user/presenters/user.dto';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsArray, IsNotEmpty } from 'class-validator';
 import { uuid } from 'uuidv4';
 
 export class CreatePartyDTO {
@@ -85,5 +87,16 @@ export class CreateAdditionalInfoDTO {
 
    constructor(additionalInfo: CreateAdditionalInfoDTO) {
       Object.assign(this, additionalInfo);
+   }
+}
+
+export class AddGuestDTO {
+   @IsNotEmpty()
+   @IsArray()
+   @ApiProperty()
+   public guests: string[];
+
+   constructor(guests: AddGuestDTO) {
+      Object.assign(this, guests);
    }
 }

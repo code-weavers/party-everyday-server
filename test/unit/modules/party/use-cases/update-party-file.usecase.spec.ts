@@ -10,7 +10,7 @@ import {
    filePartyList,
    partyFileList,
 } from '../../../mocks/file.mock';
-import { party } from '../../../mocks/party.mock';
+import { partyMock } from '../../../mocks/party.mock';
 
 describe('UpdatePartyFileUseCase', () => {
    let updatePartyFileUseCase: UpdatePartyFileUseCase;
@@ -60,16 +60,16 @@ describe('UpdatePartyFileUseCase', () => {
          .spyOn(fileRepository, 'updateMany')
          .mockResolvedValueOnce(filePartyList);
       jest.spyOn(repository, 'update').mockResolvedValueOnce(undefined);
-      jest.spyOn(repository, 'findOne').mockResolvedValueOnce(party);
+      jest.spyOn(repository, 'findOne').mockResolvedValueOnce(partyMock);
       jest.spyOn(environmentConfig, 'getCloudUpload').mockReturnValueOnce(true);
       jest.spyOn(uploadService, 'uploadFile').mockResolvedValueOnce(fileParty);
 
       const result = await updatePartyFileUseCase.execute(id, partyFileList);
 
-      expect(result).toEqual(party);
+      expect(result).toEqual(partyMock);
       expect(logger.log).toHaveBeenCalledWith(
          'UpdatePartyFileUseCases execute()',
-         `Files of ${party.name} have been updated`,
+         `Files of ${partyMock.name} have been updated`,
       );
    });
 
