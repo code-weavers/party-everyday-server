@@ -9,7 +9,7 @@ export class CreateAdditionalInfoUseCase {
       private readonly repository: IPartyRepository,
    ) { }
 
-   public async execute(partyId: string, additionalInfo: CreateAdditionalInfoDTO[]): Promise<Party> {
+   public async execute(partyId: string, additionalInfo: CreateAdditionalInfoDTO): Promise<Party> {
       this.logger.log(' CreateAdditionalInfoUseCase execute()', `Creating new additional info with params: ${JSON.stringify(additionalInfo)}`)
 
       const createdAdditionalInfo = await this.repository.createAdditionalInfo(partyId, additionalInfo);

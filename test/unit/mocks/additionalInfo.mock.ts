@@ -1,5 +1,5 @@
 import { AdditionalPartyInfo } from "@/entities/additionalPartyInfo.entity";
-import { CreateAdditionalInfoDTO } from "@/modules/party/presenters/party.dto";
+import { AdditionalInfoDTO, CreateAdditionalInfoDTO } from "@/modules/party/presenters/party.dto";
 
 export const additionalInfoMock: AdditionalPartyInfo = {
    id: '1',
@@ -21,9 +21,14 @@ export const additionalInfosMock: AdditionalPartyInfo[] = [
    }
 ]
 
-export const createAdditionalInfoMock: CreateAdditionalInfoDTO = {
+const additionalInfo: AdditionalInfoDTO = {
    name: 'teste',
    value: 1,
 }
 
+const additionalInfos: AdditionalInfoDTO[] = [additionalInfo]
+
+export const createAdditionalInfoMock: CreateAdditionalInfoDTO = {
+   additionalInfo: additionalInfos
+}
 export const createAdditionalInfosMock: CreateAdditionalInfoDTO[] = [createAdditionalInfoMock]

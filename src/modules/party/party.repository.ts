@@ -91,8 +91,8 @@ export class PartyRepository implements IPartyRepository {
       return party;
    }
 
-   public async createAdditionalInfo(partyId: string, additionalInfo: CreateAdditionalInfoDTO[]): Promise<Party> {
-      const newAdditionalInfo = additionalInfo.map((info) => this.additionalInfoRepository.create({
+   public async createAdditionalInfo(partyId: string, additionalPartyInfo: CreateAdditionalInfoDTO): Promise<Party> {
+      const newAdditionalInfo = additionalPartyInfo.additionalInfo.map((info) => this.additionalInfoRepository.create({
          ...info,
          partyId,
       }));
