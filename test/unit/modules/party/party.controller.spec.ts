@@ -6,7 +6,7 @@ import { PartyModule } from '@/modules/party/party.module';
 import { PartyPresenter } from '@/modules/party/presenters/party.presenter';
 import { createMock } from '@golevelup/ts-jest';
 import { Test, TestingModule } from '@nestjs/testing';
-import { createAdditionalInfosMock } from '../../mocks/additionalInfo.mock';
+import { createAdditionalInfoMock } from '../../mocks/additionalInfo.mock';
 import { multerFile } from '../../mocks/file.mock';
 import { createGuestMock } from '../../mocks/guest.mock';
 import {
@@ -273,7 +273,7 @@ describe('PartyController', () => {
 
    describe('createAdditionalInfo', () => {
       it('should create additional info and return an instance of PartyPresenter', async () => {
-         const additionalInfosMock = [{ name: "teste", value: 1 }]
+         const additionalInfosMock = { "additionalInfo": [{ name: "teste", value: 1 }] }
          jest
             .spyOn(
                partyController['createAdditionalInfoUseCase'].getInstance(),
@@ -281,7 +281,7 @@ describe('PartyController', () => {
             )
             .mockResolvedValue(partyWithAdditionalInfoMock);
 
-         const result = await partyController.createAdditionalInfo('1', createAdditionalInfosMock,);
+         const result = await partyController.createAdditionalInfo('1', createAdditionalInfoMock,);
 
          expect(result).toBeInstanceOf(PartyPresenter);
          expect(
