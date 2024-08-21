@@ -157,7 +157,7 @@ export class PartyController {
    @PostApiResponse(PartyPresenter, '/:id/additionalInfo')
    public async createAdditionalInfo(
       @Param('id') id: string,
-      @Body() additionalInfo: CreateAdditionalInfoDTO[],
+      @Body() additionalInfo: CreateAdditionalInfoDTO,
    ): Promise<PartyPresenter> {
       const createdAdditionalPartyInfo = await this.createAdditionalInfoUseCase
          .getInstance()

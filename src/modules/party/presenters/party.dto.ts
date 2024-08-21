@@ -78,14 +78,25 @@ export class UpdatePartyDTO {
    }
 }
 
-export class CreateAdditionalInfoDTO {
+export class AdditionalInfoDTO {
    @IsRequiredString()
    public name: string;
 
    @IsRequiredNumber()
    public value: number;
 
-   constructor(additionalInfo: CreateAdditionalInfoDTO) {
+   constructor(additionalInfo: AdditionalInfoDTO) {
+      Object.assign(this, additionalInfo);
+   }
+}
+
+export class CreateAdditionalInfoDTO {
+   @IsNotEmpty()
+   @IsArray()
+   @ApiProperty()
+   public additionalInfo: AdditionalInfoDTO[];
+
+   constructor(additionalInfo: AdditionalInfoDTO[]) {
       Object.assign(this, additionalInfo);
    }
 }

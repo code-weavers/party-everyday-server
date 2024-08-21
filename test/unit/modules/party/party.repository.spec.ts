@@ -4,7 +4,7 @@ import { Party } from '@/entities/party.entity';
 import { PartyRepository } from '@/modules/party/party.repository';
 import { createMock } from '@golevelup/ts-jest';
 import { Repository } from 'typeorm';
-import { additionalInfoMock, createAdditionalInfosMock } from '../../mocks/additionalInfo.mock';
+import { additionalInfoMock, createAdditionalInfoMock } from '../../mocks/additionalInfo.mock';
 import { createGuestMock, guestMock } from '../../mocks/guest.mock';
 import {
    createPartyDTO,
@@ -219,11 +219,11 @@ describe('PartyRepository', () => {
          jest.spyOn(additionalInfo, 'save').mockResolvedValue(additionalInfoMock);
          jest.spyOn(repository, 'findOne').mockResolvedValue(partyWithAdditionalInfoMock);
 
-         const result = await partyRepository.createAdditionalInfo(partyId, createAdditionalInfosMock);
+         const result = await partyRepository.createAdditionalInfo(partyId, createAdditionalInfoMock);
 
-         expect(additionalInfo.create).toHaveBeenCalledTimes(createAdditionalInfosMock.length);
+         expect(additionalInfo.create).toHaveBeenCalledTimes(createAdditionalInfoMock.additionalInfo.length);
 
-         createAdditionalInfosMock.forEach((info) => {
+         createAdditionalInfoMock.additionalInfo.forEach((info) => {
             expect(additionalInfo.create).toHaveBeenCalledWith({
                ...info,
                partyId,

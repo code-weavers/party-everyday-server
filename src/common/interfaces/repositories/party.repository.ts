@@ -14,7 +14,7 @@ export interface IPartyRepository {
    create?(party: CreatePartyDTO): Promise<Party>;
    update?(id: string, party: UpdatePartyDTO): Promise<Party>;
    delete?(id: string): Promise<Party>;
-   createAdditionalInfo?(partyId: string, additionalInfo: CreateAdditionalInfoDTO[]): Promise<Party>;
+   createAdditionalInfo(partyId: string, additionalPartyInfo: CreateAdditionalInfoDTO): Promise<Party>;
    deleteAdditionalInfo?(additionalInfoId: string): Promise<Party>;
    addGuests?(partyId: string, guests: AddGuestDTO): Promise<Party>;
    deleteGuest?(guestId: string): Promise<Party>;
