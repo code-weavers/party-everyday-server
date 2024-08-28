@@ -34,6 +34,8 @@ export class LoginUseCase {
          email: userValidated.email,
          username: userValidated.username,
          telephoneNumber: userValidated.telephoneNumber,
+         pushNotificationToken: userValidated.pushNotificationToken,
+         billingAccountKey: userValidated.billingAccountKey,
          file: userValidated.file,
          accessToken,
       });

@@ -15,6 +15,12 @@ export class AuthPresenter {
    public telephoneNumber: string;
 
    @IsRequiredString()
+   public pushNotificationToken: string;
+
+   @IsRequiredString()
+   public billingAccountKey: string;
+
+   @IsRequiredString()
    public accessToken: string;
 
    public file: FilePresenter;
@@ -24,6 +30,8 @@ export class AuthPresenter {
       this.email = auth.email;
       this.username = auth.username;
       this.telephoneNumber = auth.telephoneNumber;
+      this.pushNotificationToken = auth.pushNotificationToken;
+      this.billingAccountKey = auth.billingAccountKey;
       this.accessToken = auth.accessToken;
       this.file = new FilePresenter(auth.file);
    }
