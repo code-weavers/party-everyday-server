@@ -5,6 +5,7 @@ import { IsRequiredDate } from '@/common/decorators/validators/isRequiredDate.de
 import { IsRequiredModel } from '@/common/decorators/validators/isRequiredModel.decorator';
 import { IsRequiredNumber } from '@/common/decorators/validators/isRequiredNumber.decorator';
 import { IsRequiredString } from '@/common/decorators/validators/isRequiredString.decorator';
+import { AdditionalInfoType } from '@/common/enums/additionalInfoType.enum';
 import { PartyStatus } from '@/common/enums/statusParty.enum';
 import { CreateAddressDTO } from '@/modules/address/presenters/address.dto';
 import { CreateFileDTO } from '@/modules/file/presenters/file.dto';
@@ -80,10 +81,16 @@ export class UpdatePartyDTO {
 
 export class AdditionalInfoDTO {
    @IsRequiredString()
+   public userId: string;
+
+   @IsRequiredString()
    public name: string;
 
    @IsRequiredNumber()
    public value: number;
+
+   @IsRequiredString()
+   public type: AdditionalInfoType;
 
    constructor(additionalInfo: AdditionalInfoDTO) {
       Object.assign(this, additionalInfo);

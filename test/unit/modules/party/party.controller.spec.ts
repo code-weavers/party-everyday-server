@@ -273,7 +273,7 @@ describe('PartyController', () => {
 
    describe('createAdditionalInfo', () => {
       it('should create additional info and return an instance of PartyPresenter', async () => {
-         const additionalInfosMock = { "additionalInfo": [{ name: "teste", value: 1 }] }
+         const additionalInfosMock = { "additionalInfo": [{ name: "teste", value: 1, type: "COST", userId: "1", }] }
          jest
             .spyOn(
                partyController['createAdditionalInfoUseCase'].getInstance(),
@@ -336,6 +336,22 @@ describe('PartyController', () => {
          expect(
             partyController['removeGuestUseCase'].getInstance().execute,
          ).toHaveBeenCalledWith('1');
+      });
+   });
+
+   describe('checkout', () => {
+      it('should checkout a party and return an instance of PartyPresenter', async () => {
+         const mockId = '1';
+         const mockParty = new Party();
+
+         jest
+            .spyOn(partyController['checkoutUseCase'].getInstance(), 'execute')
+            .mockResolvedValue(mockParty);
+
+         const result = await partyController.checkout(mockId);
+
+         expect(result).toBeInstanceOf(PartyPresenter);
+         expect(partyController['checkoutUseCase'].getInstance().execute).toHaveBeenCalledWith(mockId);
       });
    });
 });

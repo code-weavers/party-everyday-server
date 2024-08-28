@@ -1,3 +1,4 @@
+import { PartyStatus } from '@/common/enums/statusParty.enum';
 import { IPartyRepository } from '@/common/interfaces/repositories/party.repository';
 import { AdditionalPartyInfo } from '@/entities/additionalPartyInfo.entity';
 import { Guest } from '@/entities/guest.entity';
@@ -20,7 +21,9 @@ export class PartyRepository implements IPartyRepository {
 
    public async findOne(id: string): Promise<Party> {
       return await this.repository.findOne({
-         where: { id },
+         where: {
+            id, status: PartyStatus.ACTIVE
+         },
          relations: ['guests', 'guests.user', 'address', 'files', 'additionalInfo'],
          order: { date: 'ASC' },
       });
@@ -28,6 +31,8 @@ export class PartyRepository implements IPartyRepository {
 
    public async findAll(): Promise<Party[]> {
       return await this.repository.find({
+         where: { status: PartyStatus.ACTIVE },
+         relations: ['address'],
          order: { date: 'ASC' },
       });
    }

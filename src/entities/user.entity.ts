@@ -27,7 +27,13 @@ export class User {
    public telephoneNumber: string;
 
    @IsRequiredStringColumn()
-   public password: string;
+   public password?: string;
+
+   @IsOptionalStringColumn()
+   public pushNotificationToken?: string;
+
+   @IsOptionalStringColumn()
+   public billingAccountKey: string;
 
    @CreateDateColumn()
    public createdAt: Date;

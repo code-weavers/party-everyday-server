@@ -11,3 +11,15 @@ export class AuthDTO {
       Object.assign(this, props);
    }
 }
+
+export class PermissionDTO {
+   //@IsRequiredString()
+   //public role: string;
+
+   @IsRequiredString()
+   public pushNotificationToken: string;
+
+   constructor(props: PermissionDTO) {
+      Object.assign(this, props);
+   }
+}
