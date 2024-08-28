@@ -88,6 +88,8 @@ describe('LoginUseCase', () => {
             email: authPresenter.email,
             username: authPresenter.username,
             telephoneNumber: authPresenter.telephoneNumber,
+            pushNotificationToken: authPresenter.pushNotificationToken,
+            billingAccountKey: authPresenter.billingAccountKey,
             file: authPresenter.file,
             accessToken: 'token',
          });
@@ -159,6 +161,7 @@ describe('LoginUseCase', () => {
             username: userWithFile.username,
             telephoneNumber: userWithFile.telephoneNumber,
             billingAccountKey: userWithFile.billingAccountKey,
+            pushNotificationToken: userWithFile.pushNotificationToken,
             file: userWithFile.file,
          });
       });
