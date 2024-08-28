@@ -11,6 +11,8 @@ export const authPresenter: AuthPresenter = {
    email: 'test@test.com',
    username: 'John Doe',
    telephoneNumber: '123456789',
+   pushNotificationToken: 'testToken',
+   billingAccountKey: 'testBilling',
    accessToken: 'token',
    file: {
       url: 'testUrl',

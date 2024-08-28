@@ -47,6 +47,7 @@ export const userWithFile: User = {
    password: 'hashedPassword',
    telephoneNumber: '123456789',
    billingAccountKey: 'testBilling',
+   pushNotificationToken: 'testToken',
    file: {
       id: '1',
       ownerId: '1',
