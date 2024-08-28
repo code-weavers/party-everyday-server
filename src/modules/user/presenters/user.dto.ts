@@ -38,6 +38,9 @@ export class CreateUserDTO {
    public telephoneNumber: string;
 
    @IsRequiredString()
+   public billingAccountKey: string;
+
+   @IsRequiredString()
    public password: string;
 
    @IsOptionalModel([CreateFileDTO])
@@ -58,6 +61,12 @@ export class UpdateUserDTO {
 
    @IsOptionalString()
    public telephoneNumber?: string;
+
+   @IsOptionalString()
+   public pushNotificationToken?: string;
+
+   @IsOptionalString()
+   public billingAccountKey?: string;
 
    @IsOptionalString()
    public password?: string;

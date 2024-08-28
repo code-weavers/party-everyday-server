@@ -15,6 +15,12 @@ export class UserPresenter {
    public telephoneNumber: string;
 
    @ApiProperty({ required: false })
+   public billingAccountKey?: string;
+
+   @ApiProperty({ required: false })
+   public pushNotificationToken?: string;
+
+   @ApiProperty({ required: false })
    public accessToken?: string;
 
    @ApiProperty({ required: false })
@@ -32,6 +38,8 @@ export class UserPresenter {
       this.email = user.email;
       this.telephoneNumber = user.telephoneNumber;
       this.accessToken = user.accessToken;
+      this.pushNotificationToken = user.pushNotificationToken;
+      this.billingAccountKey = user.billingAccountKey;
       this.file = user.file;
       this.createdAt = user.createdAt;
       this.updatedAt = user.updatedAt;

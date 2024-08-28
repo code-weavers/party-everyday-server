@@ -1,4 +1,6 @@
+import { IGatewayService } from '@/common/interfaces/abstracts/gateway.service';
 import { IAddressRepository } from '@/common/interfaces/repositories/address.repository';
+import { IUserRepository } from '@/common/interfaces/repositories/user.repository';
 import { Party } from '@/entities/party.entity';
 import { OwnerType } from '@enums/ownerType.enum';
 import { IEnvironmentConfigService } from '@interfaces/abstracts/environmentConfigService.interface';
@@ -15,8 +17,10 @@ export class CreatePartyUseCase {
       private readonly repository: IPartyRepository,
       private readonly fileRepository: IFileRepository,
       private readonly addressRepository: IAddressRepository,
+      private readonly userRepository: IUserRepository,
       private readonly uploadService: IUploadService,
       private readonly environmentConfig: IEnvironmentConfigService,
+      private readonly gatewayService: IGatewayService,
    ) { }
 
    public async execute(
@@ -33,6 +37,19 @@ export class CreatePartyUseCase {
       party.addressId = address.id;
 
       await this.repository.create(party);
+
+      if (party.guests.length > 0) {
+         for (const guest of party.guests) {
+            const user = await this.userRepository.findOne(guest.id);
+
+            this.gatewayService.sendNotification({
+               pushToken: user.pushNotificationToken,
+               partyId: party.id,
+               title: `${party.name}`,
+               message: `Você está convidado para o evento ${party.name}!`
+            });
+         }
+      }
 
       this.logger.log(
          'CreatePartyUseCases execute()',

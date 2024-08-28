@@ -44,7 +44,7 @@ export class UserController {
       private readonly updateUserFileUseCase: UseCaseProxy<UpdateUserFileUseCase>,
       @Inject(UserModule.DELETE_USER_USECASES_PROXY)
       private readonly deleteUserUseCase: UseCaseProxy<DeleteUserUseCase>,
-   ) {}
+   ) { }
 
    @GetApiResponse(UserPresenter, '/me')
    public async findUser(@Req() req: IAuth): Promise<UserPresenter> {
@@ -70,7 +70,12 @@ export class UserController {
 
    @Public()
    @PostApiResponse(UserPresenter, '', false)
-   @UseInterceptors(FileInterceptor('files'))
+   @UseInterceptors(FileInterceptor('file', {
+      limits: {
+         fileSize: 1024 * 1024 * 5,
+         fieldSize: 1024 * 1024 * 5,
+      }
+   }))
    public async createUser(
       @Body() user: CreateUserDTO,
       @UploadedFile() file: Express.Multer.File,

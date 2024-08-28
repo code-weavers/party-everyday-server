@@ -1,4 +1,4 @@
-import { AuthDTO } from '@/modules/auth/presenters/auth.dto';
+import { AuthDTO, PermissionDTO } from '@/modules/auth/presenters/auth.dto';
 import { AuthPresenter } from '@/modules/auth/presenters/auth.presenter';
 
 export const authCredentials: AuthDTO = {
@@ -18,3 +18,9 @@ export const authPresenter: AuthPresenter = {
       fieldname: 'testKey',
    },
 };
+
+export const permissions: PermissionDTO = {
+   pushNotificationToken: 'testToken',
+}
+
+

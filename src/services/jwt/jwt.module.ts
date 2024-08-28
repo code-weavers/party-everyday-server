@@ -6,10 +6,9 @@ import { JwtTokenService } from './jwt.service';
    imports: [
       Jwt.register({
          secret: String(process.env.JWT_SECRET),
-         signOptions: { expiresIn: '24h' },
       }),
    ],
    providers: [JwtTokenService],
    exports: [JwtTokenService],
 })
-export class JwtModule {}
+export class JwtModule { }

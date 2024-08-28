@@ -80,6 +80,8 @@ describe('PartyRepository', () => {
          expect(result).toEqual(partyList);
 
          expect(repository.find).toHaveBeenCalledWith({
+            where: { status: 'ACTIVE' },
+            relations: ['address'],
             order: { date: 'ASC' },
          });
       });

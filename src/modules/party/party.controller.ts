@@ -21,6 +21,7 @@ import { PartyModule } from './party.module';
 import { AddGuestDTO, CreateAdditionalInfoDTO, CreatePartyDTO, UpdatePartyDTO } from './presenters/party.dto';
 import { PartyPresenter } from './presenters/party.presenter';
 import { AddGuestsUseCase } from './use-cases/add-guests.usecase';
+import { CheckoutUseCase } from './use-cases/checkout.usecase';
 import { CreateAdditionalInfoUseCase } from './use-cases/create-additional-info.usecase';
 import { CreatePartyUseCase } from './use-cases/create-party.usecase';
 import { DeleteAdditionalInfoUseCase } from './use-cases/delete-additional-info.usecase';
@@ -61,6 +62,8 @@ export class PartyController {
       private readonly addGuestUseCase: UseCaseProxy<AddGuestsUseCase>,
       @Inject(PartyModule.REMOVE_GUEST_USECASES_PROXY)
       private readonly removeGuestUseCase: UseCaseProxy<RemoveGuestUseCase>,
+      @Inject(PartyModule.CHECKOUT_PARTY_USECASES_PROXY)
+      private readonly checkoutUseCase: UseCaseProxy<CheckoutUseCase>,
    ) { }
 
    @GetApiResponse(PartyPresenter, ':id')
@@ -200,5 +203,14 @@ export class PartyController {
          .execute(id);
 
       return new PartyPresenter(deletedGuestParty);
+   }
+
+   @PostApiResponse(PartyPresenter, '/:id/checkout')
+   public async checkout(@Param('id') id: string): Promise<PartyPresenter> {
+      const checkoutedParty = await this.checkoutUseCase
+         .getInstance()
+         .execute(id);
+
+      return new PartyPresenter(checkoutedParty);
    }
 }
