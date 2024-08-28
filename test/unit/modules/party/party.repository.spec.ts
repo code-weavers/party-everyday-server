@@ -64,7 +64,7 @@ describe('PartyRepository', () => {
          expect(result).toEqual(partyWithRelations);
 
          expect(repository.findOne).toHaveBeenCalledWith({
-            where: { id: '1', status: 'ACTIVE' },
+            where: { id: '1' },
             relations: ['guests', 'guests.user', 'address', 'files', 'additionalInfo'],
             order: { date: 'ASC' },
          });
@@ -289,7 +289,7 @@ describe('PartyRepository', () => {
          expect(guestRepository.findOne).toHaveBeenCalledWith({ where: { id: guestId } });
          expect(guestRepository.delete).toHaveBeenCalledWith({ id: guestId });
          expect(repository.findOne).toHaveBeenCalledWith({
-            where: { id: guest.partyId, status: 'ACTIVE' },
+            where: { id: guest.partyId },
             relations: ['guests', 'guests.user', 'address', 'files', 'additionalInfo'],
             order: { date: 'ASC' },
          });

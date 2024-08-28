@@ -22,7 +22,5 @@ async function server() {
    connect({ addr: port, authtoken_from_env: true }).then((listener) =>
       console.log(`Ingress established at: ${listener.url()}`),
    );
-
-   console.log(`Process Id: ${process.pid}`);
 }
 server();

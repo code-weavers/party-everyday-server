@@ -21,9 +21,7 @@ export class PartyRepository implements IPartyRepository {
 
    public async findOne(id: string): Promise<Party> {
       return await this.repository.findOne({
-         where: {
-            id, status: PartyStatus.ACTIVE
-         },
+         where: { id },
          relations: ['guests', 'guests.user', 'address', 'files', 'additionalInfo'],
          order: { date: 'ASC' },
       });
