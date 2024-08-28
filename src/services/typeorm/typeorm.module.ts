@@ -18,10 +18,11 @@ export const getTypeOrmModuleOptions = (
       ssl: config.getEnvironment() === 'production',
       //logging: config.getEnvironment() === 'development',
       extra:
-         process.env.ENVIRONMENT === 'production'
+         config.getEnvironment() === 'production'
             ? {
                ssl: {
                   rejectUnauthorized: false,
+                  require: true,
                },
             }
             : {},
