@@ -20,7 +20,7 @@ export class CreateUserUseCase {
       private readonly jwtService: IJwtService,
       private readonly uploadService: IUploadService,
       private readonly environmentConfig: IEnvironmentConfigService,
-   ) {}
+   ) { }
 
    public async execute(
       user: CreateUserDTO,

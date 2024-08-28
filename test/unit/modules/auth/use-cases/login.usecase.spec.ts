@@ -158,6 +158,7 @@ describe('LoginUseCase', () => {
             email: userWithFile.email,
             username: userWithFile.username,
             telephoneNumber: userWithFile.telephoneNumber,
+            billingAccountKey: userWithFile.billingAccountKey,
             file: userWithFile.file,
          });
       });

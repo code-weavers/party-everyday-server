@@ -14,7 +14,7 @@ export class S3Service implements IUploadService {
    private readonly config: IS3ClientUploadConfig = {
       credentials: {
          accessKeyId: String(process.env.AWS_ACCESS_KEY_ID),
-         secretAccessKey: String(process.env.AWS_SECRET_ACCESS),
+         secretAccessKey: String(process.env.AWS_SECRET_ACCESS_KEY),
       },
       bucketName: String(process.env.AWS_S3_BUCKET),
       ACL: 'public-read',

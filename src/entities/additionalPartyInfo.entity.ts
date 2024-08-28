@@ -1,6 +1,7 @@
 import { IsOptionalNumberColumn } from '@/common/decorators/columns/isOptionalnumberColumn.decorator';
 import { IsOptionalStringColumn } from '@/common/decorators/columns/isOptionalStringColumn.decorator';
 import { IsRequiredStringColumn } from '@/common/decorators/columns/isRequiredStringColumn.decorator';
+import { AdditionalInfoType } from '@/common/enums/additionalInfoType.enum';
 import {
    CreateDateColumn,
    Entity,
@@ -20,13 +21,19 @@ export class AdditionalPartyInfo {
    public partyId?: string;
 
    @IsRequiredStringColumn()
+   public userId?: string;
+
+   @IsRequiredStringColumn()
    public name: string;
 
    @IsOptionalNumberColumn()
    public value: number;
 
+   @IsRequiredStringColumn({ enum: AdditionalInfoType })
+   public type?: AdditionalInfoType;
+
    @CreateDateColumn()
-   public createdAt: Date;
+   public createdAt?: Date;
 
    @UpdateDateColumn()
    public updatedAt?: Date;

@@ -1,3 +1,4 @@
+import { AdditionalInfoType } from "@/common/enums/additionalInfoType.enum";
 import { AdditionalPartyInfo } from "@/entities/additionalPartyInfo.entity";
 import { AdditionalInfoDTO, CreateAdditionalInfoDTO } from "@/modules/party/presenters/party.dto";
 
@@ -15,7 +16,7 @@ export const additionalInfosMock: AdditionalPartyInfo[] = [
       id: '1',
       partyId: '1',
       name: 'teste',
-      value: 1,
+      value: 150,
       createdAt: new Date(),
       updatedAt: new Date(),
    }
@@ -24,6 +25,8 @@ export const additionalInfosMock: AdditionalPartyInfo[] = [
 const additionalInfo: AdditionalInfoDTO = {
    name: 'teste',
    value: 1,
+   type: AdditionalInfoType.COST,
+   userId: '1'
 }
 
 const additionalInfos: AdditionalInfoDTO[] = [additionalInfo]

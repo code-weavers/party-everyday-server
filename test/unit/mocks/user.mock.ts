@@ -4,6 +4,7 @@ import {
    CreateUserDTO,
    UpdateUserDTO,
 } from '@/modules/user/presenters/user.dto';
+import { UserPresenter } from '@/modules/user/presenters/user.presenter';
 
 export const user: User = {
    id: '1',
@@ -11,9 +12,33 @@ export const user: User = {
    email: 'test@test.com',
    password: 'hashedPassword',
    telephoneNumber: '123456789',
+   billingAccountKey: 'testBilling',
+   pushNotificationToken: 'testToken',
    createdAt: new Date(),
    updatedAt: new Date(),
 };
+
+export const userWithoutPassword: User = {
+   id: '1',
+   username: 'John Doe',
+   email: 'test@test.com',
+   telephoneNumber: '123456789',
+   billingAccountKey: 'testBilling',
+   pushNotificationToken: 'testToken',
+   createdAt: new Date(),
+   updatedAt: new Date(),
+};
+
+export const userPresenterMock: UserPresenter = {
+   id: '1',
+   username: 'John Doe',
+   email: 'test@test.com',
+   telephoneNumber: '123456789',
+   billingAccountKey: 'testBilling',
+   pushNotificationToken: 'testToken',
+   createdAt: new Date(),
+   updatedAt: new Date(),
+}
 
 export const userWithFile: User = {
    id: '1',
@@ -21,6 +46,7 @@ export const userWithFile: User = {
    email: 'test@test.com',
    password: 'hashedPassword',
    telephoneNumber: '123456789',
+   billingAccountKey: 'testBilling',
    file: {
       id: '1',
       ownerId: '1',
@@ -56,6 +82,7 @@ export const users: User[] = [
       email: 'test@test.com',
       password: 'hashedPassword',
       telephoneNumber: '123456789',
+      billingAccountKey: 'testBilling',
       createdAt: new Date(),
       updatedAt: new Date(),
    },
@@ -67,6 +94,7 @@ export const createUserDTO: CreateUserDTO = {
    email: 'test@test.com',
    password: 'hashedPassword',
    telephoneNumber: '123456789',
+   billingAccountKey: 'testBilling',
 };
 
 export const updateUserDTO: UpdateUserDTO = {

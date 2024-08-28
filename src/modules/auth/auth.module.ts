@@ -10,6 +10,7 @@ import { JwtTokenService } from '../../services/jwt/jwt.service';
 import { RepositoriesModule } from '../repositories.proxy.module';
 import { UserRepository } from '../user/user.repository';
 import { LoginUseCase } from './use-cases/login.usecase';
+import { PermissionUseCase } from './use-cases/permission.usecase';
 
 @Module({
    imports: [
@@ -22,6 +23,7 @@ import { LoginUseCase } from './use-cases/login.usecase';
 })
 export class AuthModule {
    static LOGIN_USECASES_PROXY = 'login';
+   static PERMISSION_USECASES_PROXY = 'permission';
 
    static register(): DynamicModule {
       return {
@@ -50,8 +52,28 @@ export class AuthModule {
                      ),
                   ),
             },
+            {
+               inject: [
+                  LoggerService,
+                  UserRepository,
+               ],
+               provide: AuthModule.PERMISSION_USECASES_PROXY,
+               useFactory: (
+                  logger: LoggerService,
+                  userRepository: UserRepository,
+               ) =>
+                  new UseCaseProxy(
+                     new PermissionUseCase(
+                        logger,
+                        userRepository,
+                     ),
+                  ),
+            }
          ],
-         exports: [AuthModule.LOGIN_USECASES_PROXY],
+         exports: [
+            AuthModule.LOGIN_USECASES_PROXY,
+            AuthModule.PERMISSION_USECASES_PROXY
+         ],
       };
    }
 }
