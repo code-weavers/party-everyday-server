@@ -44,7 +44,7 @@ export class PartyRepository implements IPartyRepository {
 
    public async findAllInvited(userId: string): Promise<Party[]> {
       return await this.repository.find({
-         where: { guests: { id: userId } },
+         where: { guests: { userId } },
          order: { date: 'ASC' },
       });
    }

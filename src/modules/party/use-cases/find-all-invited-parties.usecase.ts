@@ -6,7 +6,7 @@ export class FindAllGuestPartiesUseCase {
    constructor(
       private readonly repository: IPartyRepository,
       private readonly cacheManager: ICacheManager,
-   ) {}
+   ) { }
 
    public async execute(guestId: string): Promise<Party[]> {
       const key = 'guestParties-' + guestId;
@@ -16,7 +16,7 @@ export class FindAllGuestPartiesUseCase {
 
       if (cachedPartys) return cachedPartys;
 
-      const parties = await this.repository.findAllOwner(guestId);
+      const parties = await this.repository.findAllInvited(guestId);
 
       await this.cacheManager.setObjectInCache(key, parties);
 
