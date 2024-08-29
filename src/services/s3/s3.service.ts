@@ -46,6 +46,8 @@ export class S3Service implements IUploadService {
 
       file.url = `https://${this.config.bucketName}.s3.${this.config.region}.amazonaws.com/${file.key}`;
 
+      delete file.buffer;
+
       return file;
    }
 

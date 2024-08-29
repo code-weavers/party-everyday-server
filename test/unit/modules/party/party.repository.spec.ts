@@ -115,7 +115,7 @@ describe('PartyRepository', () => {
          expect(result).toEqual(guestParties);
 
          expect(repository.find).toHaveBeenCalledWith({
-            where: { guests: { id: '1' } },
+            where: { guests: { userId: '1' } },
             order: { date: 'ASC' },
          });
       });
